@@ -61,9 +61,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Booking.cs" />
+    <Compile Include="BookingManagement\CreateClientWindow.xaml.cs">
+      <DependentUpon>CreateClientWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BookingManagement\SelectTalentWindow.xaml.cs">
+      <DependentUpon>SelectTalentWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseManagement\DatabaseManager.cs" />
+    <Compile Include="Models\Booking.cs" />
     <Compile Include="BookingManagement\AddBookingWindow.xaml.cs">
       <DependentUpon>AddBookingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BookingManagement\MakeBookingWindow.xaml.cs">
+      <DependentUpon>MakeBookingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="BookingManagement\UpdateBookingWindow.xaml.cs">
       <DependentUpon>UpdateBookingWindow.xaml</DependentUpon>
@@ -71,9 +81,16 @@
     <Compile Include="BookingManagement\ViewBookingsWindow.xaml.cs">
       <DependentUpon>ViewBookingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="DatabaseManagement\DatabaseHelper.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Campaign.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\Talent.cs" />
+    <Compile Include="BookingManagement\CreateCampaignWindow.xaml.cs">
+      <DependentUpon>CreateCampaignWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TalentManagement\ReadTalentList.xaml.cs">
       <DependentUpon>ReadTalentList.xaml</DependentUpon>
@@ -81,6 +98,18 @@
     <Compile Include="TalentManagement\SearchingTalentWindow.xaml.cs">
       <DependentUpon>SearchingTalentWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="BookingManagement\CreateClientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BookingManagement\MakeBookingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BookingManagement\SelectTalentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BookingManagement\UpdateBookingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -98,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TalentManagement\AddTalentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BookingManagement\CreateCampaignWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -168,6 +201,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ApplicationEntry\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

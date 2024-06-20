@@ -53,7 +53,7 @@ namespace TalentManagementSystem
 
             if (clickedButton.Name == "BookingButton")
             {
-                contextMenu.Items.Add(CreateMenuItem("Add Booking"));
+                contextMenu.Items.Add(CreateMenuItem("Make Booking"));
                 contextMenu.Items.Add(CreateMenuItem("Update Booking"));
                 contextMenu.Items.Add(CreateMenuItem("View Booking"));
                 contextMenu.Items.Add(CreateMenuItem("Cancel Booking"));
@@ -124,10 +124,10 @@ namespace TalentManagementSystem
                 ReadTalentListWindow readTalentListWindow = new ReadTalentListWindow();
                 readTalentListWindow.Show();
             }
-            else if (buttonText == "Add Booking")
+            else if (buttonText == "Make Booking")
             {
-                AddBookingWindow addBookingWindow = new AddBookingWindow();
-                addBookingWindow.Show();
+                MakeBookingWindow makeBookingWindow = new MakeBookingWindow();
+                makeBookingWindow.Show();
             }
             else if (buttonText == "Update Booking")
             {

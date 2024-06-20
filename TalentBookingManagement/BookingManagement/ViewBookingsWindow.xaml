@@ -14,6 +14,24 @@
 
         <TextBlock Text="View All Bookings" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="10" Grid.Row="0"/>
 
-        <DataGrid x:Name="BookingsDataGrid" AutoGenerateColumns="True" CanUserAddRows="False" IsReadOnly="True" Grid.Row="1" Margin="10"/>
+        <DataGrid x:Name="BookingsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Grid.Row="1" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Booking ID" Binding="{Binding BookingID}"/>
+                <DataGridTextColumn Header="Special Requirement" Binding="{Binding SpecialRequirement}"/>
+                <DataGridTextColumn Header="Client ID" Binding="{Binding ClientID}"/>
+                <DataGridTextColumn Header="Campaign ID" Binding="{Binding CampaignID}"/>
+                <DataGridTextColumn Header="Staff ID" Binding="{Binding StaffID}"/>
+                <DataGridTextColumn Header="Booking Time" Binding="{Binding BookingTime}"/>
+                <DataGridTextColumn Header="Campaign Start Date" Binding="{Binding CampaignStartDate}"/>
+                <DataGridTextColumn Header="Campaign End Date" Binding="{Binding CampaignEndDate}"/>
+                <DataGridTextColumn Header="Campaign Location" Binding="{Binding CampaignLocation}"/>
+                <DataGridTextColumn Header="Rate Type" Binding="{Binding RateType}"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding Duration}"/>
+                <DataGridTextColumn Header="Booking Fee" Binding="{Binding BookingFee}"/>
+                <DataGridTextColumn Header="Talent IDs" Binding="{Binding TalentIDsAsString}"/>
+                <!-- Assuming TalentIDs are displayed as comma-separated string -->
+                <DataGridTextColumn Header="Active Status" Binding="{Binding ActiveStatus}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

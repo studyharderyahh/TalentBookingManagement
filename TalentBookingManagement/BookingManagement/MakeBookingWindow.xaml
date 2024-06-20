@@ -1,0 +1,174 @@
+﻿<Window x:Class="TalentBookingManagement.BookingManagement.MakeBookingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TalentBookingManagement.BookingManagement"
+        mc:Ignorable="d"
+        Title="Talent Booking System" Height="900" Width="800">
+    <Grid Margin="20" RenderTransformOrigin="0.429,0.508">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- Title Label -->
+        <Label Content="Create Booking" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center" Margin="0 0 0 20"/>
+
+        <!-- Client Detail Section -->
+        <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0 0 20 20" Grid.Row="0">
+            <StackPanel>
+                <Label Content="Client Detail" FontWeight="Bold"/>
+                <Grid Margin="0 10 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <ComboBox x:Name="cmbClientOption" Grid.Column="1" Width="200" Margin="5"
+                              SelectedIndex="0">
+                        <!-- Select ClientPhoneNumber by default -->
+                        <ComboBoxItem Content="ClientPhoneNumber"/>
+                        <ComboBoxItem Content="ClientID"/>
+                    </ComboBox>
+
+                    <!-- TextBox for entering ClientPhoneNumber or ClientID -->
+                    <TextBox x:Name="txtClientInput" Grid.Column="2" Width="200" Margin="5"/>
+
+                    <Button Content="Check Client" Grid.Column="3" Click="CheckClient_Click" Margin="10 0 0 0"/>
+                    <Button Content="Create Client" Grid.Column="4" Click="CreateClient_Click" Margin="104,-1,-94,1"/>
+                    
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Client Details Display -->
+        <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0 0 20 20" Grid.Row="1" Visibility="Collapsed" x:Name="clientDetailsBorder">
+            <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="ClientID:" FontWeight="Bold" Grid.Column="0"/>
+                    <TextBlock x:Name="txtClientID" Grid.Column="1"/>
+
+                    <TextBlock Text="First Name:" FontWeight="Bold" Margin="0 5 0 0" Grid.Column="2"/>
+                    <TextBlock x:Name="txtFirstName" Grid.Column="3" Margin="0 5 0 0"/>
+
+                    <TextBlock Text="Last Name:" FontWeight="Bold" Margin="0 5 0 0" Grid.Column="4"/>
+                    <TextBlock x:Name="txtLastName" Grid.Column="5" Margin="0 5 0 0"/>
+
+                    <TextBlock Text="Phone Number:" FontWeight="Bold" Margin="0 5 0 0" Grid.Column="6"/>
+                    <TextBlock x:Name="txtPhoneNumber" Grid.Column="7" Margin="0 5 0 0"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+        
+        <!-- Campaign Detail Section -->
+        <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0 0 20 20" Grid.Row="2">
+            <StackPanel>
+                <Label Content="Campaign Detail" FontWeight="Bold"/>
+                <Grid Margin="0 10 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Select Campaign Type:" Grid.Column="0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="cmbCampaignDetail" SelectionChanged="cmbCampaignDetail_SelectionChanged"
+          Grid.Column="1" Width="200" Margin="5"
+          TextSearch.TextPath="CampaignName"
+          DisplayMemberPath="CampaignName"
+          DropDownOpened="cmbCampaignDetail_DropDownOpened"/>
+
+                    <Button Content="Create Campaign" Grid.Column="2" Click="CreateCampaign_Click" Margin="10 0 0 0"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Booking Detail Section -->
+        <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0 0 20 20" Grid.Row="3">
+            <StackPanel>
+                <Label Content="Booking Detail" FontWeight="Bold"/>
+
+                <Grid Margin="0 10 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="StaffID:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtStaffID" Grid.Row="0" Grid.Column="1" Margin="0 0 0 10"/>
+
+                    <Label Content="Campaign Start Date:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                    <DatePicker x:Name="dpCampaignStartDate" Grid.Row="2" Grid.Column="1" Margin="0 0 0 10"/>
+
+                    <Label Content="Campaign End Date:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                    <DatePicker x:Name="dpCampaignEndDate" Grid.Row="3" Grid.Column="1" Margin="0 0 0 10"/>
+
+                    <Label Content="Campaign Location:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtCampaignLocation" Grid.Row="4" Grid.Column="1" Margin="0 0 0 10"/>
+
+                    <Label Content="Special Requirement:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtSpecialRequirement" Grid.Row="5" Grid.Column="1" Margin="0 0 0 10"/>
+
+                    <Label Content="Rate Type:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="cmbRateType" Width="200" Grid.Row="6" Grid.Column="1" Margin="0 0 0 10" SelectionChanged="RateType_SelectionChanged">
+                        <ComboBoxItem Content="Hourly"/>
+                        <ComboBoxItem Content="Daily"/>
+                    </ComboBox>
+                    <Label x:Name="lblDuration" Content="Duration:" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <TextBox x:Name="txtDuration" Width="200" Grid.Row="7" Grid.Column="1" Margin="0 0 0 10" Visibility="Collapsed"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Select Talent Section -->
+        <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0 0 20 20" Grid.Row="5">
+            <StackPanel>
+                <Label Content="Select Talent" FontWeight="Bold"/>
+                <Button Content="Select Talent" Click="SelectTalent_Click" Margin="0 10 0 0" Height="22"/>
+                <ListBox x:Name="lstSelectedTalents" DisplayMemberPath="TalentName" Margin="0 10 0 0" Height="35"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Booking Fee Section -->
+        <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0 0 20 20" Grid.Row="6">
+            <StackPanel>
+                <Label Content="Booking Fee" FontWeight="Bold"/>
+                <TextBox x:Name="txtBookingFee" IsReadOnly="True" Background="LightGray"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button x:Name="btnCreateBooking" Content="Create Booking" Click="AddButton_Click" HorizontalAlignment="Center" Margin="0,20,0,-20"  Width="102"/>
+            <Button x:Name="btnCloseBooking" Content="Close" Click="CloseButton_Click" Margin="0,20,0,-20" Width="102" Height="26"/>
+        </StackPanel>
+        <!-- Create Booking Button -->
+    </Grid>
+</Window>

@@ -2,11 +2,11 @@
 using System.Configuration;
 using System.Data.SqlClient;
 
-namespace TalentBookingManagement
+namespace TalentBookingManagement.DatabaseManagement
 {
     public static class DatabaseHelper
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TalentBookingManagementDB"].ConnectionString;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
 
         public static SqlConnection GetConnection()
         {
