@@ -33,7 +33,7 @@ namespace TalentBookingManagement.DatabaseHelper
                         Campaign campaign = new Campaign
                         {
                             CampaignID = Convert.ToInt32(reader["CampaignID"]),
-                            CampaignType = reader["CampaignName"].ToString(),
+                            CampaignName = reader["CampaignName"].ToString(),
                             HourlyRate = Convert.ToDecimal(reader["HourlyRates"]),
                             DailyRate = Convert.ToDecimal(reader["DailyRates"])
                         };

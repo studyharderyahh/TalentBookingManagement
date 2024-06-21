@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TalentBookingManagement.BookingManagement"
         mc:Ignorable="d"
-        Title="Talent Booking System" Height="900" Width="800">
-    <Grid Margin="20" RenderTransformOrigin="0.429,0.508">
+        Title="Talent Booking System" Height="861" Width="800">
+    <Grid Margin="20,20,20,90" RenderTransformOrigin="0.429,0.508">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -50,12 +50,11 @@
             </StackPanel>
         </Border>
 
-        <!-- Client Details Display -->
+        <!-- Client Details Display: -->
         <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0 0 20 20" Grid.Row="1" Visibility="Collapsed" x:Name="clientDetailsBorder">
             <StackPanel>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -63,8 +62,12 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="ClientID:" FontWeight="Bold" Grid.Column="0"/>
+                    <TextBlock Text="ClientID:" FontWeight="Bold" Margin="0 5 0 0" Grid.Column="0"/>
                     <TextBlock x:Name="txtClientID" Grid.Column="1"/>
 
                     <TextBlock Text="First Name:" FontWeight="Bold" Margin="0 5 0 0" Grid.Column="2"/>
@@ -90,11 +93,14 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Select Campaign Type:" Grid.Column="0" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="cmbCampaignDetail" SelectionChanged="cmbCampaignDetail_SelectionChanged"
-          Grid.Column="1" Width="200" Margin="5"
-          TextSearch.TextPath="CampaignName"
-          DisplayMemberPath="CampaignName"
-          DropDownOpened="cmbCampaignDetail_DropDownOpened"/>
+                    <ComboBox x:Name="cmbCampaignDetail" 
+                              SelectionChanged="cmbCampaignDetail_SelectionChanged"
+                              Grid.Column="1" Width="200" Margin="5"
+                              DisplayMemberPath="CampaignName"
+                              SelectedValuePath="CampaignID"
+                              ItemsSource="{Binding Campaigns}"
+                              SelectedItem="{Binding SelectedCampaign, Mode=TwoWay}"
+                              DropDownOpened="cmbCampaignDetail_DropDownOpened"/>
 
                     <Button Content="Create Campaign" Grid.Column="2" Click="CreateCampaign_Click" Margin="10 0 0 0"/>
                 </Grid>
@@ -153,22 +159,38 @@
             <StackPanel>
                 <Label Content="Select Talent" FontWeight="Bold"/>
                 <Button Content="Select Talent" Click="SelectTalent_Click" Margin="0 10 0 0" Height="22"/>
-                <ListBox x:Name="lstSelectedTalents" DisplayMemberPath="TalentName" Margin="0 10 0 0" Height="35"/>
+                <!-- Selected Talents Section -->
+                <ListBox x:Name="lstSelectedTalents" Margin="10">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding FirstName}" Width="100"/>
+                                <TextBlock Text="{Binding LastName}" Width="100"/>
+                                <TextBlock Text="{Binding Skill}" Width="100"/>
+                                <TextBlock Text="{Binding Skill}" Width="100"/>
+                                <TextBlock Text="{Binding Skill}" Width="100"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </Border>
 
         <!-- Booking Fee Section -->
         <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0 0 20 20" Grid.Row="6">
-            <StackPanel>
-                <Label Content="Booking Fee" FontWeight="Bold"/>
-                <TextBox x:Name="txtBookingFee" IsReadOnly="True" Background="LightGray"/>
+            <!-- Booking Fee Section -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                <Label Content="Booking Fee" FontWeight="Bold" Margin="0,0,10,0"/>
+                <TextBox x:Name="txtBookingFee" IsReadOnly="True" Background="LightGray" Width="100" Margin="0,0,10,0"/>
+                <Button x:Name="btnCalculateBookingFee" Content="Calculate Booking Fee" Click="CalculateBookingFee_Click"/>
             </StackPanel>
         </Border>
 
-        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button x:Name="btnCreateBooking" Content="Create Booking" Click="AddButton_Click" HorizontalAlignment="Center" Margin="0,20,0,-20"  Width="102"/>
-            <Button x:Name="btnCloseBooking" Content="Close" Click="CloseButton_Click" Margin="0,20,0,-20" Width="102" Height="26"/>
-        </StackPanel>
         <!-- Create Booking Button -->
+        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button x:Name="btnCreateBooking" Content="Create Booking" Click="AddButton_Click" HorizontalAlignment="Center" Margin="0,20,10,-20" Width="102"/>
+            <Button x:Name="btnCloseBooking" Content="Close" Click="CloseButton_Click" Margin="10,20,0,-20" Width="102" Height="26"/>
+        </StackPanel>
+        
     </Grid>
 </Window>

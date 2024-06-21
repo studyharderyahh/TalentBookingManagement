@@ -23,6 +23,8 @@ namespace TalentBookingManagement.BookingManagement
     /// </summary>
     public partial class SelectTalentWindow : Window
     {
+        public List<Talent> SelectedTalents { get; private set; } = new List<Talent>();
+
         private static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public SelectTalentWindow()
         {
@@ -129,34 +131,22 @@ namespace TalentBookingManagement.BookingManagement
 
         private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
-            // Example of retrieving selected talents from ListBox
-            List<Talent> selectedTalents = new List<Talent>();
+            //SelectedTalents.Clear();
             foreach (Talent talent in lstTalents.SelectedItems)
             {
-                selectedTalents.Add(talent);
+                SelectedTalents.Add(talent);
             }
 
-            // Use the selectedTalents list as needed (e.g., return to booking process)
-            // For example, you can close this window and pass selectedTalents back to the booking process.
-            // Close window: this.Close();
+            DialogResult = true;
+            Close();
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close(); // Close the window when Cancel button is clicked
+            DialogResult = false;
+            Close();
         }
-        public List<Talent> SelectedTalents
-        {
-            get
-            {
-                List<Talent> selectedTalents = new List<Talent>();
-                foreach (Talent talent in lstTalents.SelectedItems)
-                {
-                    selectedTalents.Add(talent);
-                }
-                return selectedTalents;
-            }
-        }
+
         public List<int> SelectedTalentIDs
         {
             get

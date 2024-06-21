@@ -56,7 +56,7 @@ namespace TalentBookingManagement.TalentManagement
                 CreatedCampaign = new Campaign
                 {
                     CampaignID = newCampaignID,
-                    CampaignType = campaignName,
+                    CampaignName = campaignName,
                     HourlyRate = hourlyRates,
                     DailyRate = dailyRates
                 };

@@ -17,20 +17,27 @@ using TalentBookingManagement.BookingManagement;
 using TalentBookingManagement.Models;
 using TalentBookingManagement.TalentManagement;
 using System.Configuration;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace TalentBookingManagement.BookingManagement
 {
     /// <summary>
     /// Interaction logic for MakeBookingWindow.xaml
     /// </summary>
-    public partial class MakeBookingWindow : Window
+    public partial class MakeBookingWindow : Window, INotifyPropertyChanged
     {
+        private ObservableCollection<Campaign> campaigns;
+        private Campaign selectedCampaign;
         private List<int> selectedTalentIDs = new List<int>();
+
         private static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
 
         public MakeBookingWindow()
         {
             InitializeComponent();
+            DataContext = this; // Set the DataContext for data binding
+            Campaigns = new ObservableCollection<Campaign>();
         }
 
         private void CheckClient_Click(object sender, RoutedEventArgs e)
@@ -156,6 +163,33 @@ namespace TalentBookingManagement.BookingManagement
             clientDetailsBorder.Visibility = Visibility.Collapsed;
         }
 
+        public ObservableCollection<Campaign> Campaigns
+        {
+            get { return campaigns; }
+            set
+            {
+                campaigns = value;
+                OnPropertyChanged("Campaigns");
+            }
+        }
+
+        public Campaign SelectedCampaign
+        {
+            get { return selectedCampaign; }
+            set
+            {
+                selectedCampaign = value;
+                OnPropertyChanged("SelectedCampaign");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void cmbCampaignDetail_DropDownOpened(object sender, EventArgs e)
         {
             LoadCampaigns(); // Load campaigns when ComboBox dropdown is opened
@@ -163,7 +197,7 @@ namespace TalentBookingManagement.BookingManagement
 
         private void LoadCampaigns()
         {
-            cmbCampaignDetail.Items.Clear(); // Clear existing items
+            Campaigns.Clear(); // Clear existing items
 
             try
             {
@@ -178,9 +212,15 @@ namespace TalentBookingManagement.BookingManagement
 
                     while (reader.Read())
                     {
-                        // Assuming CampaignName is a column in your result set
-                        string campaignName = reader["CampaignName"].ToString();
-                        cmbCampaignDetail.Items.Add(campaignName);
+                        Campaign campaign = new Campaign
+                        {
+                            CampaignID = Convert.ToInt32(reader["CampaignID"]),
+                            CampaignName = reader["CampaignName"].ToString(),
+                            HourlyRate = Convert.ToDecimal(reader["HourlyRates"]),
+                            DailyRate = Convert.ToDecimal(reader["DailyRates"])
+                        };
+
+                        Campaigns.Add(campaign);
                     }
 
                     reader.Close();
@@ -191,12 +231,13 @@ namespace TalentBookingManagement.BookingManagement
                 MessageBox.Show("Error loading campaigns: " + ex.Message);
             }
         }
+
         private void cmbCampaignDetail_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cmbCampaignDetail.SelectedItem != null)
             {
-                string selectedCampaign = cmbCampaignDetail.SelectedItem.ToString();
-                cmbCampaignDetail.Text = selectedCampaign; // Display selected campaign name in ComboBox text
+                // Ensure that the SelectedCampaign is updated
+                SelectedCampaign = cmbCampaignDetail.SelectedItem as Campaign;
             }
         }
 
@@ -217,7 +258,6 @@ namespace TalentBookingManagement.BookingManagement
             var createCampaignWindow = new CreateCampaignWindow();
             if (createCampaignWindow.ShowDialog() == true)
             {
-                cmbCampaignDetail.ItemsSource = GetAllCampaigns();
                 cmbCampaignDetail.SelectedItem = createCampaignWindow.CreatedCampaign;
                 MessageBox.Show("Campaign created successfully.", "Create Campaign");
             }
@@ -234,42 +274,20 @@ namespace TalentBookingManagement.BookingManagement
                     txtDuration.Visibility = Visibility.Visible;
                     lblDuration.Content = selectedRateType == "Hourly" ? "Hours:" : "Days:";
                 }
-                CalculateBookingFee();
             }
         }
 
         private void SelectTalent_Click(object sender, RoutedEventArgs e)
         {
-            var selectTalentWindow = new SelectTalentWindow();
-            if (selectTalentWindow.ShowDialog() == true)
+            SelectTalentWindow selectTalentWindow = new SelectTalentWindow();
+            bool? result = selectTalentWindow.ShowDialog();
+
+            if (result == true)
             {
-                selectedTalentIDs = selectTalentWindow.SelectedTalentIDs;
                 lstSelectedTalents.ItemsSource = selectTalentWindow.SelectedTalents;
-                CalculateBookingFee();
+                selectedTalentIDs = selectTalentWindow.SelectedTalents.Select(t => t.TalentID).ToList();
+
             }
-        }
-
-        private void CalculateBookingFee()
-        {
-            if (cmbCampaignDetail.SelectedItem == null || cmbRateType.SelectedItem == null || string.IsNullOrEmpty(txtDuration.Text))
-            {
-                txtBookingFee.Text = "0";
-                return;
-            }
-
-            var selectedCampaign = cmbCampaignDetail.SelectedItem as Campaign;
-            var selectedRateType = (cmbRateType.SelectedItem as ComboBoxItem).Content.ToString();
-            int duration;
-            if (!int.TryParse(txtDuration.Text, out duration))
-            {
-                txtBookingFee.Text = "0";
-                return;
-            }
-
-            decimal rate = selectedRateType == "Hourly" ? selectedCampaign.HourlyRate : selectedCampaign.DailyRate;
-            decimal totalFee = rate * duration * selectedTalentIDs.Count;
-
-            txtBookingFee.Text = totalFee.ToString("C");
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -277,13 +295,17 @@ namespace TalentBookingManagement.BookingManagement
             // Validate fields and create booking
             if (ValidateBookingDetails())
             {
+                // Convert dates to SQL Server-compatible format
+                DateTime campaignStartDate = dpCampaignStartDate.SelectedDate.Value;
+                DateTime campaignEndDate = dpCampaignEndDate.SelectedDate.Value;
+
                 Booking newBooking = new Booking
                 {
                     StaffID = int.Parse(txtStaffID.Text),
                     ClientID = int.Parse(txtClientID.Text),
                     CampaignID = (cmbCampaignDetail.SelectedItem as Campaign).CampaignID,
-                    CampaignStartDate = dpCampaignStartDate.SelectedDate.Value,
-                    CampaignEndDate = dpCampaignEndDate.SelectedDate.Value,
+                    CampaignStartDate = campaignStartDate,
+                    CampaignEndDate = campaignEndDate,
                     CampaignLocation = txtCampaignLocation.Text,
                     SpecialRequirement = txtSpecialRequirement.Text,
                     RateType = (cmbRateType.SelectedItem as ComboBoxItem).Content.ToString(),
@@ -292,9 +314,18 @@ namespace TalentBookingManagement.BookingManagement
                     TalentIDs = selectedTalentIDs
                 };
 
-                AddBooking(newBooking);
-                MessageBox.Show("Booking created successfully.", "Create Booking");
-                this.Close();
+                // Call stored procedure
+                bool bookingCreated = AddBooking(newBooking);
+
+                if (bookingCreated)
+                {
+                    MessageBox.Show("Booking created successfully.", "Create Booking");
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to create booking. Please try again.", "Create Booking");
+                }
             }
         }
 
@@ -325,46 +356,10 @@ namespace TalentBookingManagement.BookingManagement
             return true;
         }
 
-        public static List<Campaign> GetAllCampaigns()
+        public bool AddBooking(Booking newBooking)
         {
-            List<Campaign> campaigns = new List<Campaign>();
+            bool bookingCreated = false;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand("GetAllCampaigns", connection);
-                command.CommandType = CommandType.StoredProcedure;
-
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        Campaign campaign = new Campaign
-                        {
-                            CampaignID = Convert.ToInt32(reader["CampaignID"]),
-                            CampaignType = reader["CampaignName"].ToString(),
-                            HourlyRate = Convert.ToDecimal(reader["HourlyRates"]),
-                            DailyRate = Convert.ToDecimal(reader["DailyRates"])
-                        };
-
-                        campaigns.Add(campaign);
-                    }
-
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    // Handle exception (log or throw)
-                    Console.WriteLine(ex.Message);
-                }
-            }
-
-            return campaigns;
-        }
-        public void AddBooking(Booking newBooking)
-        {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand("AddBooking", connection);
@@ -373,9 +368,8 @@ namespace TalentBookingManagement.BookingManagement
                 command.Parameters.AddWithValue("@ClientID", newBooking.ClientID);
                 command.Parameters.AddWithValue("@CampaignID", newBooking.CampaignID);
                 command.Parameters.AddWithValue("@StaffID", newBooking.StaffID);
-                command.Parameters.AddWithValue("@BookingTime", newBooking.BookingTime);
-                command.Parameters.AddWithValue("@CampaignStartDate", newBooking.CampaignStartDate);
-                command.Parameters.AddWithValue("@CampaignEndDate", newBooking.CampaignEndDate);
+                command.Parameters.AddWithValue("@CampaignStartDate", newBooking.CampaignStartDate.Date); // Ensure only Date part is sent
+                command.Parameters.AddWithValue("@CampaignEndDate", newBooking.CampaignEndDate.Date); // Ensure only Date part is sent
                 command.Parameters.AddWithValue("@CampaignLocation", newBooking.CampaignLocation);
                 command.Parameters.AddWithValue("@SpecialRequirement", newBooking.SpecialRequirement);
                 command.Parameters.AddWithValue("@RateType", newBooking.RateType);
@@ -397,19 +391,37 @@ namespace TalentBookingManagement.BookingManagement
                 {
                     connection.Open();
                     command.ExecuteNonQuery();
-                    MessageBox.Show("Booking created successfully.", "Create Booking");
+                    bookingCreated = true; // Booking created successfully
                 }
                 catch (Exception ex)
                 {
                     // Handle exception (log or throw)
                     MessageBox.Show($"An error occurred: {ex.Message}", "Error");
+                    bookingCreated = false;
                 }
             }
+
+            return bookingCreated;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void CalculateBookingFee_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedCampaign != null && cmbRateType.SelectedItem != null && int.TryParse(txtDuration.Text, out int duration) && lstSelectedTalents.Items.Count > 0)
+            {
+                var selectedRateType = (cmbRateType.SelectedItem as ComboBoxItem).Content.ToString();
+                decimal rate = selectedRateType == "Hourly" ? SelectedCampaign.HourlyRate : SelectedCampaign.DailyRate;
+                decimal bookingFee = rate * duration * lstSelectedTalents.Items.Count;
+                txtBookingFee.Text = bookingFee.ToString("C");
+            }
+            else
+            {
+                MessageBox.Show("Please ensure all required fields are selected and filled in correctly.", "Validation Error");
+            }
         }
     }
 }
