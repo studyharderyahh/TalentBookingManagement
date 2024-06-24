@@ -61,24 +61,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BookingManagement\CreateClientWindow.xaml.cs">
+    <Compile Include="ViewModels\UpdateBookingViewModel.cs" />
+    <Compile Include="Views\CreateClientWindow.xaml.cs">
       <DependentUpon>CreateClientWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BookingManagement\SelectTalentWindow.xaml.cs">
+    <Compile Include="Views\SelectTalentWindow.xaml.cs">
       <DependentUpon>SelectTalentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DatabaseManagement\DatabaseManager.cs" />
     <Compile Include="Models\Booking.cs" />
-    <Compile Include="BookingManagement\AddBookingWindow.xaml.cs">
-      <DependentUpon>AddBookingWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="BookingManagement\MakeBookingWindow.xaml.cs">
+    <Compile Include="Views\MakeBookingWindow.xaml.cs">
       <DependentUpon>MakeBookingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BookingManagement\UpdateBookingWindow.xaml.cs">
+    <Compile Include="Views\UpdateBookingWindow.xaml.cs">
       <DependentUpon>UpdateBookingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BookingManagement\ViewBookingsWindow.xaml.cs">
+    <Compile Include="Views\ViewBookingsWindow.xaml.cs">
       <DependentUpon>ViewBookingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DatabaseManagement\DatabaseHelper.cs" />
@@ -89,7 +87,7 @@
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Talent.cs" />
-    <Compile Include="BookingManagement\CreateCampaignWindow.xaml.cs">
+    <Compile Include="Views\CreateCampaignWindow.xaml.cs">
       <DependentUpon>CreateCampaignWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TalentManagement\ReadTalentList.xaml.cs">
@@ -98,23 +96,25 @@
     <Compile Include="TalentManagement\SearchingTalentWindow.xaml.cs">
       <DependentUpon>SearchingTalentWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="BookingManagement\CreateClientWindow.xaml">
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\BookingsViewModel.cs" />
+    <Page Include="Views\CreateClientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BookingManagement\MakeBookingWindow.xaml">
+    <Page Include="Views\MakeBookingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BookingManagement\SelectTalentWindow.xaml">
+    <Page Include="Views\SelectTalentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BookingManagement\UpdateBookingWindow.xaml">
+    <Page Include="Views\UpdateBookingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BookingManagement\ViewBookingsWindow.xaml">
+    <Page Include="Views\ViewBookingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,15 +122,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BookingManagement\AddBookingWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="TalentManagement\AddTalentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BookingManagement\CreateCampaignWindow.xaml">
+    <Page Include="Views\CreateCampaignWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -201,8 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ApplicationEntry\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

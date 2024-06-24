@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:TalentBookingManagement.BookingManagement"
         mc:Ignorable="d"
         Title="Talent Booking System" Height="861" Width="800">
+    <ScrollViewer>
     <Grid Margin="20,20,20,90" RenderTransformOrigin="0.429,0.508">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -67,8 +68,9 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+                    
                     <TextBlock Text="ClientID:" FontWeight="Bold" Margin="0 5 0 0" Grid.Column="0"/>
-                    <TextBlock x:Name="txtClientID" Grid.Column="1"/>
+                    <TextBlock x:Name="txtClientID" Margin="0 5 0 0" Grid.Column="1"/>
 
                     <TextBlock Text="First Name:" FontWeight="Bold" Margin="0 5 0 0" Grid.Column="2"/>
                     <TextBlock x:Name="txtFirstName" Grid.Column="3" Margin="0 5 0 0"/>
@@ -193,4 +195,5 @@
         </StackPanel>
         
     </Grid>
+    </ScrollViewer>
 </Window>

@@ -33,7 +33,11 @@
 
             <!-- Availability Status -->
             <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5">Availability Status:</TextBlock>
-            <TextBox x:Name="txtAvailabilityStatus" Grid.Column="1" Margin="5"/>
+            <ComboBox x:Name="cmbAvailabilityStatus" Grid.Column="1" Margin="5">
+                <ComboBoxItem Content="Available for booking" />
+                <ComboBoxItem Content="Booked" />
+                <ComboBoxItem Content="Unavailable" />
+            </ComboBox>
 
             <!-- Start Date -->
             <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">Start Date:</TextBlock>

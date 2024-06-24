@@ -34,7 +34,7 @@ namespace TalentBookingManagement.BookingManagement
         private void SearchTalent_Click(object sender, RoutedEventArgs e)
         {
             // Get filter values from UI controls
-            string availabilityStatus = txtAvailabilityStatus.Text.Trim();
+            string availabilityStatus = (cmbAvailabilityStatus.SelectedItem as ComboBoxItem)?.Content.ToString();
             string skillName = txtSkillName.Text.Trim();
             DateTime? bookingStartDate = dpStartDate.SelectedDate;
             DateTime? bookingEndDate = dpEndDate.SelectedDate;
@@ -64,8 +64,8 @@ namespace TalentBookingManagement.BookingManagement
         }
 
         private List<Talent> FetchFilteredTalents(string availabilityStatus, string skillName, DateTime? bookingStartDate, DateTime? bookingEndDate,
-                                          string preferredEngagement, decimal? minHourlyRate, decimal? maxHourlyRate,
-                                          decimal? minDailyRate, decimal? maxDailyRate)
+                                                  string preferredEngagement, decimal? minHourlyRate, decimal? maxHourlyRate,
+                                                  decimal? minDailyRate, decimal? maxDailyRate)
         {
             List<Talent> talents = new List<Talent>();
 

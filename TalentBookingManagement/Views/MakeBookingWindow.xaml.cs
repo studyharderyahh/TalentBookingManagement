@@ -82,12 +82,12 @@ namespace TalentBookingManagement.BookingManagement
                     {
                         while (reader.Read())
                         {
-                            int clientId = Convert.ToInt32(reader["PersonID"]);
+                            int clientID = Convert.ToInt32(reader["ClientID"]);
                             string firstName = reader["FirstName"].ToString();
                             string lastName = reader["LastName"].ToString();
                             string retrievedPhoneNumber = reader["PhoneNumber"].ToString();
 
-                            DisplayClientDetails(clientId, firstName, lastName, retrievedPhoneNumber);
+                            DisplayClientDetails(clientID, firstName, lastName, retrievedPhoneNumber);
                             clientDetailsBorder.Visibility = Visibility.Visible;
                         }
                     }
@@ -102,6 +102,7 @@ namespace TalentBookingManagement.BookingManagement
                 }
             }
         }
+
 
         private void GetClientByID(int clientId)
         {
@@ -122,12 +123,12 @@ namespace TalentBookingManagement.BookingManagement
                     {
                         while (reader.Read())
                         {
-                            int clientID = Convert.ToInt32(reader["ClientID"]);
+                            int retrievedClientID = Convert.ToInt32(reader["ClientID"]);
                             string firstName = reader["FirstName"].ToString();
                             string lastName = reader["LastName"].ToString();
                             string phoneNumber = reader["PhoneNumber"].ToString();
 
-                            DisplayClientDetails(clientID, firstName, lastName, phoneNumber);
+                            DisplayClientDetails(retrievedClientID, firstName, lastName, phoneNumber);
                             clientDetailsBorder.Visibility = Visibility.Visible;
                         }
                     }

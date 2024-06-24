@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TalentBookingManagement.BookingManagement"
+        xmlns:vm="clr-namespace:TalentBookingManagement.ViewModels"
         mc:Ignorable="d"
         Title="View All Bookings" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:BookingsViewModel />
+    </Window.DataContext>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -14,10 +18,11 @@
 
         <TextBlock Text="View All Bookings" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="10" Grid.Row="0"/>
 
-        <DataGrid x:Name="BookingsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Grid.Row="1" Margin="10">
+        <DataGrid x:Name="BookingsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Grid.Row="1" Margin="10" ItemsSource="{Binding Bookings}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Booking ID" Binding="{Binding BookingID}"/>
                 <DataGridTextColumn Header="Special Requirement" Binding="{Binding SpecialRequirement}"/>
+                <DataGridTextColumn Header="Talent IDs" Binding="{Binding TalentIDsAsString}"/>
                 <DataGridTextColumn Header="Client ID" Binding="{Binding ClientID}"/>
                 <DataGridTextColumn Header="Campaign ID" Binding="{Binding CampaignID}"/>
                 <DataGridTextColumn Header="Staff ID" Binding="{Binding StaffID}"/>
@@ -28,8 +33,6 @@
                 <DataGridTextColumn Header="Rate Type" Binding="{Binding RateType}"/>
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}"/>
                 <DataGridTextColumn Header="Booking Fee" Binding="{Binding BookingFee}"/>
-                <DataGridTextColumn Header="Talent IDs" Binding="{Binding TalentIDsAsString}"/>
-                <!-- Assuming TalentIDs are displayed as comma-separated string -->
                 <DataGridTextColumn Header="Active Status" Binding="{Binding ActiveStatus}"/>
             </DataGrid.Columns>
         </DataGrid>
