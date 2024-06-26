@@ -15,16 +15,16 @@ namespace TalentBookingManagement.ViewModels
 {
     public class UpdateBookingViewModel : BaseViewModel
     {
-        private static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+        private readonly static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public ObservableCollection<Booking> Bookings { get; set; }
 
-        private Booking _selectedBooking;
+        private Booking selectedBooking;
         public Booking SelectedBooking
         {
-            get => _selectedBooking;
+            get => selectedBooking;
             set
             {
-                _selectedBooking = value;
+                selectedBooking = value;
                 OnPropertyChanged(nameof(SelectedBooking));
                 OnPropertyChanged(nameof(TalentIDsAsString));
             }
@@ -34,12 +34,12 @@ namespace TalentBookingManagement.ViewModels
 
         public string TalentIDsAsString
         {
-            get => string.Join(", ", _selectedBooking?.TalentIDs ?? new List<int>());
+            get => string.Join(", ", selectedBooking?.TalentIDs ?? new List<int>());
             set
             {
-                if (_selectedBooking != null)
+                if (selectedBooking != null)
                 {
-                    _selectedBooking.TalentIDs = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    selectedBooking.TalentIDs = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                        .Select(id => int.Parse(id.Trim()))
                                                        .ToList();
                     OnPropertyChanged(nameof(TalentIDsAsString));

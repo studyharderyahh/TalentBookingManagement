@@ -10,12 +10,12 @@ using System.Windows;
 
 namespace TalentBookingManagement.ViewModels
 {
-    public class BookingsViewModel : BaseViewModel
+    public class ViewBookingsViewModel : BaseViewModel
     {
-        private static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+        private readonly static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public ObservableCollection<Booking> Bookings { get; set; }
 
-        public BookingsViewModel()
+        public ViewBookingsViewModel()
         {
             Bookings = new ObservableCollection<Booking>();
             LoadBookings();
@@ -25,8 +25,10 @@ namespace TalentBookingManagement.ViewModels
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("GetBookingsWithTalent", connection);
-                command.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlCommand command = new SqlCommand("GetBookingsWithTalent", connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
 
                 try
                 {

@@ -1,9 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using TalentBookingManagement;
-using TalentBookingManagement.BookingManagement;
 
-namespace TalentManagementSystem
+namespace TalentBookingManagement
 {
     public partial class MainWindow : Window
     {
@@ -18,9 +16,9 @@ namespace TalentManagementSystem
 
         private void LoadUserData()
         {
-            string userName = "John Doe";  // 예시 사용자 이름
-            string userId = "12345";       // 예시 사용자 ID
-            userRole = "Admin";     // 예시 사용자 역할, 실제로는 로그인 시 받아와야 합니다.
+            string userName = "John Doe";
+            string userId = "12345";
+            userRole = "Admin";
 
             UserNameTextBlock.Text = $"User Name: {userName}";
             UserIDTextBlock.Text = $"User ID: {userId}";
@@ -31,17 +29,14 @@ namespace TalentManagementSystem
         {
             if (userRole == "Admin")
             {
-                // Admin은 모든 메뉴 항목을 볼 수 있습니다.
                 TalentButton.Visibility = Visibility.Visible;
             }
             else if (userRole == "Booking Agent")
             {
-                // Booking Agent는 일부 메뉴 항목에만 접근 가능합니다.
                 TalentButton.Visibility = Visibility.Visible;
             }
             else if (userRole == "Assistant")
             {
-                // Assistant는 제한된 메뉴 항목에만 접근 가능합니다.
                 TalentButton.Visibility = Visibility.Visible;
             }
         }
@@ -88,8 +83,10 @@ namespace TalentManagementSystem
 
         private MenuItem CreateMenuItem(string header)
         {
-            MenuItem menuItem = new MenuItem();
-            menuItem.Header = header;
+            MenuItem menuItem = new MenuItem
+            {
+                Header = header
+            };
             menuItem.Click += ChildMenuButton_Click;
             return menuItem;
         }

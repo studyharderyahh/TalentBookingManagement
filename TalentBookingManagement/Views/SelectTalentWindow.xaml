@@ -1,11 +1,16 @@
-﻿<Window x:Class="TalentBookingManagement.BookingManagement.SelectTalentWindow"
+﻿<Window x:Class="TalentBookingManagement.SelectTalentWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TalentBookingManagement.BookingManagement"
+        xmlns:local="clr-namespace:TalentBookingManagement"
+        xmlns:viewModels="clr-namespace:TalentBookingManagement.ViewModels"
         mc:Ignorable="d"
         Title="Select Talent" Height="600" Width="700">
+    <Window.DataContext>
+        <viewModels:SelectTalentViewModel />
+    </Window.DataContext>
+    
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -33,44 +38,24 @@
 
             <!-- Availability Status -->
             <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5">Availability Status:</TextBlock>
-            <ComboBox x:Name="cmbAvailabilityStatus" Grid.Column="1" Margin="5">
-                <ComboBoxItem Content="Available for booking" />
-                <ComboBoxItem Content="Booked" />
-                <ComboBoxItem Content="Unavailable" />
+            <ComboBox SelectedItem="{Binding AvailabilityStatus}" Grid.Column="1" Margin="5">
+                <ComboBoxItem Content="Available"/>
+                <ComboBoxItem Content="Unavailable"/>
+                <ComboBoxItem Content="Pending"/>
             </ComboBox>
-
-            <!-- Start Date -->
-            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">Start Date:</TextBlock>
-            <DatePicker x:Name="dpStartDate" Grid.Column="3" Margin="5"/>
-
-            <!-- End Date -->
-            <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="5">End Date:</TextBlock>
-            <DatePicker x:Name="dpEndDate" Grid.Column="5" Margin="5"/>
-        </Grid>
-
-        <!-- Filter Options - Row 1 -->
-        <Grid Grid.Row="2" Margin="0 10 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Preferred Engagement -->
-            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5">Preferred Engagement:</TextBlock>
-            <TextBox x:Name="txtPreferredEngagement" Grid.Column="1" Margin="5"/>
 
             <!-- Skill Name -->
             <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">Skill Name:</TextBlock>
-            <TextBox x:Name="txtSkillName" Grid.Column="3" Margin="5"/>
+            <TextBox Text="{Binding SkillName}" Grid.Column="3" Margin="5"/>
+
+            <!-- Preferred Engagement -->
+            <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="5">Preferred Engagement:</TextBlock>
+            <TextBox Text="{Binding PreferredEngagement}" Grid.Column="5" Margin="5"/>
         </Grid>
 
         <!-- Filter Options - Row 2 -->
-        <Grid Grid.Row="3" Margin="0 10 0 0">
+        <Grid Grid.Row="2" Margin="0 0 0 10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -79,44 +64,79 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Min Hourly Rate -->
-            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5">Min Hourly Rate:</TextBlock>
-            <TextBox x:Name="txtMinHourlyRate" Grid.Column="1" Margin="5"/>
+            <!-- Booking Start Date -->
+            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5">Booking Start Date:</TextBlock>
+            <DatePicker SelectedDate="{Binding BookingStartDate}" Grid.Column="1" Margin="5"/>
 
-            <!-- Max Hourly Rate -->
-            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">Max Hourly Rate:</TextBlock>
-            <TextBox x:Name="txtMaxHourlyRate" Grid.Column="3" Margin="5"/>
-
-            <!-- Min Daily Rate -->
-            <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="5">Min Daily Rate:</TextBlock>
-            <TextBox x:Name="txtMinDailyRate" Grid.Column="5" Margin="5"/>
-
-            <!-- Max Daily Rate -->
-            <TextBlock Grid.Column="6" VerticalAlignment="Center" Margin="5">Max Daily Rate:</TextBlock>
-            <TextBox x:Name="txtMaxDailyRate" Grid.Column="7" Margin="5"/>
+            <!-- Booking End Date -->
+            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">Booking End Date:</TextBlock>
+            <DatePicker SelectedDate="{Binding BookingEndDate}" Grid.Column="3" Margin="5"/>
         </Grid>
 
-        <!-- Search Button - Row 4 -->
-        <Button Content="Search" Grid.Row="4" Click="SearchTalent_Click" Margin="0,10,0,0" HorizontalAlignment="Center" Width="122"/>
+        <!-- Filter Options - Row 3 -->
+        <!-- Grid Grid.Row="3" Margin="0 0 0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>-->
 
-        <!-- Talent List - Row 5 -->
-        <ListBox x:Name="lstTalents" Grid.Row="5" Margin="0 10 0 0" SelectionMode="Multiple">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding FirstName}" Width="100"/>
-                        <TextBlock Text="{Binding LastName}" Width="100"/>
-                        <TextBlock Text="{Binding Skill}" Width="100"/>
-                        <TextBlock Text="{Binding HourlyRates}" Width="100"/>
-                        <TextBlock Text="{Binding DailyRates}" Width="100"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <!-- Buttons - Row 6 -->
-        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button Content="Select" Click="SelectButton_Click" Margin="5" Height="37" Width="79"/>
-            <Button Content="Close" Click="CloseButton_Click" Margin="5" Height="37" Width="79"/>
+            <!-- Min Hourly Rate -->
+        <!-- <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5">Min Hourly Rate:</TextBlock>
+        <TextBox Text="{Binding MinHourlyRate}" Grid.Column="1" Margin="5"/> -->
+
+        <!-- Max Hourly Rate -->
+        <!-- <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">Max Hourly Rate:</TextBlock>
+            <TextBox Text="{Binding MaxHourlyRate}" Grid.Column="3" Margin="5"/>
+        </Grid>-->
+
+        <!-- Filter Options - Row 4 -->
+        <!-- <Grid Grid.Row="4" Margin="0 0 0 10">
+             <Grid.ColumnDefinitions>
+             <ColumnDefinition Width="Auto"/>
+             <ColumnDefinition Width="*"/>
+             <ColumnDefinition Width="Auto"/>
+             <ColumnDefinition Width="*"/>
+             <ColumnDefinition Width="Auto"/>
+             <ColumnDefinition Width="*"/>
+             </Grid.ColumnDefinitions>-->
+
+            <!-- Min Daily Rate -->
+        <!-- <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5">Min Daily Rate:</TextBlock>
+            <TextBox Text="{Binding MinDailyRate}" Grid.Column="1" Margin="5"/>-->
+
+            <!-- Max Daily Rate -->
+        <!-- <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">Max Daily Rate:</TextBlock>
+            <TextBox Text="{Binding MaxDailyRate}" Grid.Column="3" Margin="5"/>
+    </Grid> -->
+
+    <!-- Talent DataGrid -->
+        <DataGrid ItemsSource="{Binding Talents}" AutoGenerateColumns="False" CanUserAddRows="False" Grid.Row="5" Margin="0 0 0 10">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Header="Select"/>
+                <DataGridTextColumn Binding="{Binding FirstName}" Header="First Name"/>
+                <DataGridTextColumn Binding="{Binding LastName}" Header="Last Name"/>
+                <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Phone Number"/>
+                <DataGridTextColumn Binding="{Binding Email}" Header="Email"/>
+                <DataGridTextColumn Binding="{Binding City}" Header="City"/>
+                <DataGridTextColumn Binding="{Binding Suburb}" Header="Suburb"/>
+                <DataGridTextColumn Binding="{Binding StreetAddress}" Header="Street Address"/>
+                <DataGridTextColumn Binding="{Binding Postcode}" Header="Postcode"/>
+                <DataGridTextColumn Binding="{Binding Skill}" Header="Skill"/>
+                <DataGridTextColumn Binding="{Binding BookingStartDate, StringFormat=d}" Header="Booking Start Date"/>
+                <DataGridTextColumn Binding="{Binding BookingEndDate, StringFormat=d}" Header="Booking End Date"/>
+                <DataGridTextColumn Binding="{Binding PreferredEngagement}" Header="Preferred Engagement"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Action Buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="6">
+            <Button Content="Search" Command="{Binding SearchCommand}" Margin="5" Height="35" Width="83"/>
+            <Button Content="Select" Command="{Binding SelectCommand}" Margin="5" Height="35" Width="83"/>
+            <Button Content="Close" Command="{Binding CloseCommand}" Margin="5" Height="35" Width="83"/>
         </StackPanel>
     </Grid>
 </Window>

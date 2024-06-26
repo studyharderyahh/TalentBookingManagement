@@ -8,19 +8,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using TalentBookingManagement.BookingManagement;
 using TalentBookingManagement.Models;
-using TalentBookingManagement.TalentManagement;
 using System.Configuration;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace TalentBookingManagement.BookingManagement
+namespace TalentBookingManagement
 {
     /// <summary>
     /// Interaction logic for MakeBookingWindow.xaml
@@ -31,7 +24,7 @@ namespace TalentBookingManagement.BookingManagement
         private Campaign selectedCampaign;
         private List<int> selectedTalentIDs = new List<int>();
 
-        private static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+        private readonly static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
 
         public MakeBookingWindow()
         {
@@ -51,8 +44,7 @@ namespace TalentBookingManagement.BookingManagement
             }
             else if (selectedOption == "ClientID")
             {
-                int clientId;
-                if (int.TryParse(clientInput, out clientId))
+                if (int.TryParse(clientInput, out int clientId))
                 {
                     GetClientByID(clientId);
                 }
@@ -71,8 +63,10 @@ namespace TalentBookingManagement.BookingManagement
                 {
                     connection.Open();
 
-                    SqlCommand command = new SqlCommand("GetClientByPhoneNumber", connection);
-                    command.CommandType = CommandType.StoredProcedure;
+                    SqlCommand command = new SqlCommand("GetClientByPhoneNumber", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
 
                     command.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
 
@@ -112,8 +106,10 @@ namespace TalentBookingManagement.BookingManagement
                 {
                     connection.Open();
 
-                    SqlCommand command = new SqlCommand("spGetClientInfo", connection);
-                    command.CommandType = CommandType.StoredProcedure;
+                    SqlCommand command = new SqlCommand("spGetClientInfo", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
 
                     command.Parameters.AddWithValue("@ClientID", clientId);
 
@@ -152,7 +148,7 @@ namespace TalentBookingManagement.BookingManagement
             txtPhoneNumber.Text = phoneNumber;
         }
 
-        private void ClearClientDetails()
+        /*private void ClearClientDetails()
         {
             // Clear client details from UI
             txtClientID.Text = string.Empty;
@@ -162,7 +158,7 @@ namespace TalentBookingManagement.BookingManagement
 
             // Hide client details border
             clientDetailsBorder.Visibility = Visibility.Collapsed;
-        }
+        }*/
 
         public ObservableCollection<Campaign> Campaigns
         {
@@ -191,7 +187,7 @@ namespace TalentBookingManagement.BookingManagement
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void cmbCampaignDetail_DropDownOpened(object sender, EventArgs e)
+        private void CmbCampaignDetail_DropDownOpened(object sender, EventArgs e)
         {
             LoadCampaigns(); // Load campaigns when ComboBox dropdown is opened
         }
@@ -206,8 +202,10 @@ namespace TalentBookingManagement.BookingManagement
                 {
                     connection.Open();
 
-                    SqlCommand command = new SqlCommand("GetAllCampaigns", connection);
-                    command.CommandType = CommandType.StoredProcedure;
+                    SqlCommand command = new SqlCommand("GetAllCampaigns", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
 
                     SqlDataReader reader = command.ExecuteReader();
 
@@ -233,7 +231,7 @@ namespace TalentBookingManagement.BookingManagement
             }
         }
 
-        private void cmbCampaignDetail_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CmbCampaignDetail_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cmbCampaignDetail.SelectedItem != null)
             {
@@ -259,8 +257,15 @@ namespace TalentBookingManagement.BookingManagement
             var createCampaignWindow = new CreateCampaignWindow();
             if (createCampaignWindow.ShowDialog() == true)
             {
-                cmbCampaignDetail.SelectedItem = createCampaignWindow.CreatedCampaign;
-                MessageBox.Show("Campaign created successfully.", "Create Campaign");
+                if (createCampaignWindow.CreatedCampaign != null)
+                {
+                    cmbCampaignDetail.SelectedItem = createCampaignWindow.CreatedCampaign;
+                    MessageBox.Show("Campaign created successfully.", "Create Campaign");
+                }
+                else
+                {
+                    MessageBox.Show("Failed to create campaign.", "Create Campaign");
+                }
             }
         }
 
@@ -363,8 +368,10 @@ namespace TalentBookingManagement.BookingManagement
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("AddBooking", connection);
-                command.CommandType = CommandType.StoredProcedure;
+                SqlCommand command = new SqlCommand("AddBooking", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 command.Parameters.AddWithValue("@ClientID", newBooking.ClientID);
                 command.Parameters.AddWithValue("@CampaignID", newBooking.CampaignID);

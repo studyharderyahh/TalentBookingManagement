@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 
-namespace TalentManagementSystem
+namespace TalentBookingManagement
 {
     public partial class ActiveTalentWindow : Window
     {

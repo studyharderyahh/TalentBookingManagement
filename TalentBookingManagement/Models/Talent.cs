@@ -9,12 +9,9 @@ namespace TalentBookingManagement.Models
     public class Talent
     {
         public int TalentID { get; set; }
-        public string AvailabilityStatus { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
-        public int Age { get; set; }
-        public string Gender { get; set; }
         public string Email { get; set; }
         public string City { get; set; }
         public string Suburb { get; set; }
@@ -29,6 +26,6 @@ namespace TalentBookingManagement.Models
         public string PreferredEngagement { get; set; }
         public decimal HourlyRates { get; set; }
         public decimal DailyRates { get; set; }
+        public bool IsSelected { get; set; }
     }
-
 }

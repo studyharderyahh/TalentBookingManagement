@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,24 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using TalentBookingManagement.Models;
-using TalentBookingManagement.ViewModels;
 
-namespace TalentBookingManagement
+namespace TalentBookingManagement.Views
 {
     /// <summary>
-    /// Interaction logic for CreateCampaignWindow.xaml
+    /// Interaction logic for MakePaymentWindow.xaml
     /// </summary>
-    public partial class CreateCampaignWindow : Window
+    public partial class MakePaymentWindow : Window
     {
-        public Campaign CreatedCampaign { get; private set; }
-
-        public CreateCampaignWindow()
+        public MakePaymentWindow()
         {
             InitializeComponent();
-            DataContext = new CreateCampaignViewModel();
         }
-
     }
-
 }

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace TalentManagementSystem
+namespace TalentBookingManagement
 {
     public partial class LoginWindow : Window
     {
