@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TalentBookingManagement.BookingManagement"
+        xmlns:vm="clr-namespace:TalentBookingManagement.ViewModels"
         mc:Ignorable="d"
         Title="Update Booking Window" Height="825" Width="750">
+    <Window.DataContext>
+        <vm:UpdateBookingViewModel />
+    </Window.DataContext>
     <ScrollViewer>
         <Grid Margin="10">
             <Grid.RowDefinitions>
@@ -30,7 +33,27 @@
                 <Button Content="Search" Click="SearchByClientIDButton_Click" Margin="5"/>
             </StackPanel>
 
-            <DataGrid x:Name="BookingsDataGrid" AutoGenerateColumns="True" CanUserAddRows="False" IsReadOnly="True" SelectionChanged="BookingsDataGrid_SelectionChanged" Grid.Row="2" Margin="10" Height="100"/>
+            <DataGrid x:Name="BookingsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Grid.Row="2" Margin="10" 
+                      ItemsSource="{Binding Bookings}" 
+                      SelectedItem="{Binding SelectedBooking}" 
+                      SelectionChanged="BookingsDataGrid_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Booking ID" Binding="{Binding BookingID}"/>
+                    <DataGridTextColumn Header="Special Requirement" Binding="{Binding SpecialRequirement}"/>
+                    <DataGridTextColumn Header="Talent IDs" Binding="{Binding TalentIDsAsString}"/>
+                    <DataGridTextColumn Header="Client ID" Binding="{Binding ClientID}"/>
+                    <DataGridTextColumn Header="Campaign ID" Binding="{Binding CampaignID}"/>
+                    <DataGridTextColumn Header="Staff ID" Binding="{Binding StaffID}"/>
+                    <DataGridTextColumn Header="Booking Time" Binding="{Binding BookingTime}"/>
+                    <DataGridTextColumn Header="Campaign Start Date" Binding="{Binding CampaignStartDate}"/>
+                    <DataGridTextColumn Header="Campaign End Date" Binding="{Binding CampaignEndDate}"/>
+                    <DataGridTextColumn Header="Campaign Location" Binding="{Binding CampaignLocation}"/>
+                    <DataGridTextColumn Header="Rate Type" Binding="{Binding RateType}"/>
+                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}"/>
+                    <DataGridTextColumn Header="Booking Fee" Binding="{Binding BookingFee}"/>
+                    <DataGridTextColumn Header="Active Status" Binding="{Binding ActiveStatus}"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
             <Grid Grid.Row="3" Margin="10">
                 <Grid.RowDefinitions>
@@ -64,7 +87,7 @@
                 <TextBox x:Name="StaffIDTextBox" Margin="5" Grid.Row="3" Grid.Column="1" Text="{Binding SelectedBooking.StaffID, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Booking Time:" Margin="5" Grid.Row="4" Grid.Column="0"/>
-                <DatePicker x:Name="BookingTimeDatePicker" Margin="5" Grid.Row="4" Grid.Column="1" SelectedDate="{Binding SelectedBooking.BookingTime, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox x:Name="BookingTimeTextBlock" Margin="5" Grid.Row="4" Grid.Column="1" IsReadOnly="True" Text="{Binding SelectedBooking.BookingTime, StringFormat='{}{0:MM/dd/yyyy}'}"/>
 
                 <TextBlock Text="Campaign Start Date:" Margin="5" Grid.Row="5" Grid.Column="0"/>
                 <DatePicker x:Name="CampaignStartDateDatePicker" Margin="5" Grid.Row="5" Grid.Column="1" SelectedDate="{Binding SelectedBooking.CampaignStartDate, UpdateSourceTrigger=PropertyChanged}"/>
@@ -85,12 +108,20 @@
                 <TextBox x:Name="BookingFeeTextBox" Margin="5" Grid.Row="10" Grid.Column="1" Text="{Binding SelectedBooking.BookingFee, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Text="Active Status:" Margin="5" Grid.Row="11" Grid.Column="0"/>
-                <TextBox x:Name="ActiveStatusTextBox" Margin="5" Grid.Row="11" Grid.Column="1" Text="{Binding SelectedBooking.ActiveStatus, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox x:Name="ActiveStatusComboBox" Margin="5" Grid.Row="11" Grid.Column="1" 
+                          ItemsSource="{Binding ActiveStatusOptions}"
+                          SelectedValue="{Binding SelectedBooking.ActiveStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                </ComboBox>
+
             </Grid>
 
             <Grid Grid.Row="4" Margin="10">
-                <TextBlock Text="Selected Talent List:" Margin="5" Grid.Row="0" Grid.Column="0"/>
-                <ListBox x:Name="TalentIDsListBox" Height="100" HorizontalAlignment="Left" VerticalAlignment="Center" Width="480" Margin="130,0,0,0" ItemsSource="{Binding SelectedBooking.TalentIDs}"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Talent IDs (comma separated):" Margin="5" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TalentIDsTextBox" Margin="5" Grid.Row="0" Grid.Column="1" Text="{Binding TalentIDsAsString, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
 
             <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="5">

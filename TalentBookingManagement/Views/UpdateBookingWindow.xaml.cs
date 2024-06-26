@@ -47,7 +47,7 @@ namespace TalentBookingManagement.BookingManagement
             }
         }
 
-        private void BookingsDataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void BookingsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var viewModel = DataContext as UpdateBookingViewModel;
             viewModel.SelectedBooking = BookingsDataGrid.SelectedItem as Booking;
@@ -61,7 +61,6 @@ namespace TalentBookingManagement.BookingManagement
 
         private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            // Logic to navigate back or close the window
             Close();
         }
     }

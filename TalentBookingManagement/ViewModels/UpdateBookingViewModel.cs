@@ -13,7 +13,7 @@ using TalentBookingManagement.Models;
 
 namespace TalentBookingManagement.ViewModels
 {
-    public class UpdateBookingViewModel : INotifyPropertyChanged
+    public class UpdateBookingViewModel : BaseViewModel
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public ObservableCollection<Booking> Bookings { get; set; }
@@ -26,18 +26,30 @@ namespace TalentBookingManagement.ViewModels
             {
                 _selectedBooking = value;
                 OnPropertyChanged(nameof(SelectedBooking));
+                OnPropertyChanged(nameof(TalentIDsAsString));
+            }
+        }
+
+        public List<string> ActiveStatusOptions { get; } = new List<string> { "Active", "Inactive" };
+
+        public string TalentIDsAsString
+        {
+            get => string.Join(", ", _selectedBooking?.TalentIDs ?? new List<int>());
+            set
+            {
+                if (_selectedBooking != null)
+                {
+                    _selectedBooking.TalentIDs = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                       .Select(id => int.Parse(id.Trim()))
+                                                       .ToList();
+                    OnPropertyChanged(nameof(TalentIDsAsString));
+                }
             }
         }
 
         public UpdateBookingViewModel()
         {
             Bookings = new ObservableCollection<Booking>();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void LoadBookingsByClientID(int clientID)
@@ -111,9 +123,6 @@ namespace TalentBookingManagement.ViewModels
             }
         }
 
-
-
-
         public void UpdateBooking()
         {
             if (SelectedBooking == null)
@@ -142,6 +151,7 @@ namespace TalentBookingManagement.ViewModels
                 command.Parameters.AddWithValue("@Duration", SelectedBooking.Duration);
                 command.Parameters.AddWithValue("@BookingFee", SelectedBooking.BookingFee);
                 command.Parameters.AddWithValue("@ActiveStatus", SelectedBooking.ActiveStatus);
+                command.Parameters.AddWithValue("@TalentIDs", string.Join(",", SelectedBooking.TalentIDs));
 
                 try
                 {
