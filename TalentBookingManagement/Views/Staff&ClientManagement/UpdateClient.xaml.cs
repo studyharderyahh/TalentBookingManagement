@@ -14,11 +14,13 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
 using TalentBookingManagement.Models;
+using System.Configuration;
 
 namespace TalentBookingManagement.Views.Staff_ClientManagement
 {
     public partial class UpdateClient : Window
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public UpdateClient()
         {
             InitializeComponent();
@@ -65,7 +67,6 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
         }
         private Client GetClientFromDatabase(int clientId)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
             Client client = null;
 
             try
@@ -165,8 +166,6 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
 
         private bool UpdateClientInDatabase(Client client)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
-
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))

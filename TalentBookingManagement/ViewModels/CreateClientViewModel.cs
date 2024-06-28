@@ -130,7 +130,7 @@ namespace TalentBookingManagement.ViewModels
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand("AddNewClient", connection))
+                using (SqlCommand command = new SqlCommand("CreateClient", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 

@@ -15,7 +15,7 @@ namespace TalentBookingManagement.ViewModels
 {
     public class UpdateBookingViewModel : BaseViewModel
     {
-        private readonly static string connectionString = ConfigurationManager.ConnectionStrings["TalentBookingManagementDB"].ConnectionString;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public ObservableCollection<Booking> Bookings { get; set; }
 
         private Booking selectedBooking;

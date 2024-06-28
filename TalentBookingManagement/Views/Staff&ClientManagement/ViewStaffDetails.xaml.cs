@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
 using TalentBookingManagement.Models;
+using System.Configuration;
 
 namespace TalentBookingManagement.Staff_ClientManagement
 {
@@ -22,6 +23,7 @@ namespace TalentBookingManagement.Staff_ClientManagement
     /// </summary>
     public partial class ViewStaffDetails : Window
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public ViewStaffDetails()
         {
             InitializeComponent();
@@ -74,8 +76,7 @@ namespace TalentBookingManagement.Staff_ClientManagement
 
         private Staff GetStaffFromDatabase(int staffId)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
-            Staff staff = null;
+           Staff staff = null;
             /*string query = "SELECT s.StaffID, p.FirstName, p.LastName, p.PhoneNumber, p.Age, p.Gender, p.Email, p.City, p.Suburb, p.StreetAddress, p.Postcode, p.ActiveStatus, s.Username, s.Password, s.RoleID " +
                            "FROM Staff s " +
                            "JOIN Person p ON s.PersonID = p.PersonID " +

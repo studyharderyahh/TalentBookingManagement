@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
     /// </summary>
     public partial class ViewStaffPermission : Window
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         private ObservableCollection<StaffPermission> StaffPermissions { get; set; }
 
         public ViewStaffPermission()
@@ -38,7 +40,6 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
         {
             try
             {
-                string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

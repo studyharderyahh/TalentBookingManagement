@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -8,8 +9,10 @@ using TalentBookingManagement.Models;
 
 namespace TalentBookingManagement.ViewModels
 {
-    public class UpdateStaffViewModel : INotifyPropertyChanged
+    public class UpdateStaffViewModel : BaseViewModel
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+
         private int _staffId;
         private string _firstName;
         private string _lastName;
@@ -25,13 +28,6 @@ namespace TalentBookingManagement.ViewModels
         private string _username;
         private string _password;
         private int _roleId;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public int StaffId
         {
@@ -228,7 +224,6 @@ namespace TalentBookingManagement.ViewModels
 
         private Staff GetStaffFromDatabase(int staffId)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
             Staff staff = null;
 
             try
@@ -312,8 +307,7 @@ namespace TalentBookingManagement.ViewModels
 
         private bool UpdateStaffInDatabase(Staff staff)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
-
+            
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))

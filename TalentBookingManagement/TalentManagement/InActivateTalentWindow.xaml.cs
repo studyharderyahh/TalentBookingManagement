@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -7,6 +8,7 @@ namespace TalentBookingManagement
 {
     public partial class InactiveTalentWindow : Window
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public InactiveTalentWindow()
         {
             InitializeComponent();
@@ -50,7 +52,6 @@ namespace TalentBookingManagement
         // Method to load talent data
         private void LoadTalentData(int talentID)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // SQL command to retrieve talent data
@@ -69,7 +70,6 @@ namespace TalentBookingManagement
         // Method to inactivate talent
         private void InactivateTalent(int talentID)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Stored procedure to inactivate talent

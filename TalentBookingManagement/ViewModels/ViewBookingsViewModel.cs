@@ -12,7 +12,7 @@ namespace TalentBookingManagement.ViewModels
 {
     public class ViewBookingsViewModel : BaseViewModel
     {
-        private readonly static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public ObservableCollection<Booking> Bookings { get; set; }
 
         public ViewBookingsViewModel()

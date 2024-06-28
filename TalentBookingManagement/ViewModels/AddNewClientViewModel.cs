@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,8 @@ namespace TalentBookingManagement.ViewModels
 {
     public class AddNewClientViewModel : BaseViewModel
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+
         private string _firstName;
         public string FirstName
         {
@@ -103,8 +106,6 @@ namespace TalentBookingManagement.ViewModels
 
         private void ExecuteSave(object parameter)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand("AddNewClient", connection);

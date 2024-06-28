@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -9,6 +10,7 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
 {
     public partial class AddNewClient : Window
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public AddNewClient()
         {
             InitializeComponent();
@@ -16,7 +18,6 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

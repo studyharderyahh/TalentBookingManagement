@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -8,8 +9,10 @@ using TalentBookingManagement.Models;
 
 namespace TalentBookingManagement.ViewModels
 {
-    public class UpdateClientViewModel : INotifyPropertyChanged
+    public class UpdateClientViewModel : BaseViewModel
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+
         private Client _client;
 
         public Client Client
@@ -48,7 +51,6 @@ namespace TalentBookingManagement.ViewModels
 
         private Client GetClientFromDatabase(int clientId)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
             Client client = null;
 
             try
@@ -107,9 +109,6 @@ namespace TalentBookingManagement.ViewModels
                 MessageBox.Show("No client selected.");
                 return;
             }
-
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand("UpdateClientInfo", connection);
@@ -142,11 +141,6 @@ namespace TalentBookingManagement.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
 

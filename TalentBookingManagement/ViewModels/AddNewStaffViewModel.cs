@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
@@ -13,6 +14,8 @@ namespace TalentBookingManagement.ViewModels
 {
     public class AddNewStaffViewModel : BaseViewModel
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+
         // Properties for staff details
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -40,8 +43,6 @@ namespace TalentBookingManagement.ViewModels
 
         private void ExecuteSave(object parameter)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand("AddNewStaff", connection);

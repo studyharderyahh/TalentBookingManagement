@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -10,6 +11,8 @@ namespace TalentBookingManagement.ViewModels
 {
     public class DeleteStaffViewModel : INotifyPropertyChanged
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+
         private int _staffId;
         private string _firstName;
         private string _lastName;
@@ -228,7 +231,6 @@ namespace TalentBookingManagement.ViewModels
 
         private Staff GetStaffFromDatabase(int staffId)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
             Staff staff = null;
 
             try
@@ -300,7 +302,6 @@ namespace TalentBookingManagement.ViewModels
 
         private bool DeleteStaffInDatabase(int staffId)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
 
             try
             {

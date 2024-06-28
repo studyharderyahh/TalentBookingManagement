@@ -14,11 +14,13 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
 using TalentBookingManagement.Models;
+using System.Configuration;
 
 namespace TalentBookingManagement.Views.Staff_ClientManagement
 {
     public partial class UpdateSatff : Window
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public UpdateSatff()
         {
             InitializeComponent();
@@ -66,7 +68,6 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
         }
         private Staff GetStaffFromDatabase(int staffId)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
             Staff staff = null;
 
             try
@@ -172,8 +173,6 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
 
         private bool UpdateStaffInDatabase(Staff staff)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
-
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))

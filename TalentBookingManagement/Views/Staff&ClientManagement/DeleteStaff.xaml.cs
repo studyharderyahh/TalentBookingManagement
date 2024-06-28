@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TalentBookingManagement.Models;
+using System.Configuration;
 
 namespace TalentBookingManagement.Views.Staff_ClientManagement
 {
@@ -22,6 +23,7 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
     /// </summary>
     public partial class DeleteStaff : Window
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public DeleteStaff()
         {
             InitializeComponent();
@@ -69,7 +71,6 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
         }
         private Staff GetStaffFromDatabase(int staffId)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
             Staff staff = null;
             try
             {
@@ -141,8 +142,6 @@ namespace TalentBookingManagement.Views.Staff_ClientManagement
 
         private bool DeleteStaffLogically(int staffId)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
-
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -7,6 +8,7 @@ namespace TalentBookingManagement
 {
     public partial class ReadTalentListWindow : Window
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public ReadTalentListWindow()
         {
             InitializeComponent();
@@ -19,7 +21,6 @@ namespace TalentBookingManagement
 
         private void LoadTalentList()
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand("GetTalentDetails", connection);

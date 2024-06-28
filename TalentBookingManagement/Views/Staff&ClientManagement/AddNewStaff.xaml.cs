@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TalentBookingManagement.Models;
 using TalentBookingManagement.DatabaseManagement;
+using System.Configuration;
 
 
 
@@ -22,6 +23,7 @@ namespace TalentBookingManagement.Staff_ClientManagement
 {
     public partial class AddNewStaff : Window
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public AddNewStaff()
         {
             InitializeComponent();
@@ -29,7 +31,6 @@ namespace TalentBookingManagement.Staff_ClientManagement
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

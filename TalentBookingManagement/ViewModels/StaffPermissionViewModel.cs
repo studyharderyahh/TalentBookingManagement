@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
@@ -14,7 +15,7 @@ namespace TalentBookingManagement.ViewModels
     {
         private int staffID;
         private ObservableCollection<StaffPermission> staffPermissions;
-
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
         public int StaffID
         {
             get { return staffID; }
@@ -55,7 +56,6 @@ namespace TalentBookingManagement.ViewModels
 
             try
             {
-                string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;"; // Update with your actual connection string
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

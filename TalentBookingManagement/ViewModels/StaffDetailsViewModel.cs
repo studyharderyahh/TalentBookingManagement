@@ -11,11 +11,14 @@ using TalentBookingManagement.Models;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Configuration;
 
 namespace TalentBookingManagement.ViewModels
 {
-    public class StaffDetailsViewModel : INotifyPropertyChanged
+    public class StaffDetailsViewModel : BaseViewModel
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
+
         // Properties for staff details
         public string StaffID { get; set; }
         public string FirstName { get; set; }
@@ -44,8 +47,6 @@ namespace TalentBookingManagement.ViewModels
 
         private void ExecuteFetch(object parameter)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand("ViewStaffDetails", connection);
@@ -86,11 +87,6 @@ namespace TalentBookingManagement.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
 
