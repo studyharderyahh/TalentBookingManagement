@@ -19,7 +19,7 @@ This project is to develop a Talent Booking Management System which will have th
 **Functionality:** Add Talent, Inactivate Talent, Activate Talent, Search Talent, View Talents
 
 **Files:**
-
+```
 │ LoginWindow.xaml
 │ LoginWindow.xaml.cs
 │ MainWindow.xaml
@@ -35,13 +35,14 @@ This project is to develop a Talent Booking Management System which will have th
 	| ReadTalentList.xaml.cs
 	| SearchingTalentWindow.xaml
 	| SearchingTalentWindow.xaml.cs
-
+```
 
 ### Staff and Client Management by Yvette Wang
 
 **Functionality:** Add Staff, View Staff, Update Staff, View Staff Permissions, Delete Staff, Add Client, View Client, Update Client
 
 **Files:**
+```
 ├───**ViewModels**
 	| AddNewClientViewModel.cs
 	| AddNewStaffViewModel.cs
@@ -70,13 +71,14 @@ This project is to develop a Talent Booking Management System which will have th
 	| ViewStaffDetails.xaml.cs
 	| ViewStaffPermission.xaml
 	| ViewStaffPermission.xaml.cs
-
+```
 
 ### Booking Management by Elisa Wu
 
 **Functionality:** Add Booking, View Bookings, Update Booking, Cancel Booking, Create Campaign, View Campaign, Search Talent, Create Client, View Client
 
 **Files:**
+```
 ├───**Converters**
 	│ DecimalConverter.cs
 ├───**FileHelper**
@@ -112,7 +114,7 @@ This project is to develop a Talent Booking Management System which will have th
 	│ UpdateBookingWindow.xaml.cs
 	│ ViewBookingsWindow.xaml
 	│ ViewBookingsWindow.xaml.cs
-
+```
 
 ## Out of Scope
 
