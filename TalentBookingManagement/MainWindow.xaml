@@ -26,11 +26,14 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Content="Booking" Name="BookingButton" Click="MainMenu_Click" Margin="5" Grid.Column="0"/>
-            <Button Content="Staff" Name="StaffButton" Click="MainMenu_Click" Margin="5" Grid.Column="1"/>
-            <Button Content="Talent" Name="TalentButton" Click="MainMenu_Click" Margin="5,0,5,5" Grid.Column="2" Height="30" VerticalAlignment="Bottom"/>
+            <Button Content="Staff" Name="StaffButton" Click="MainMenu_Click" Margin="5,5,5,5" Grid.Column="1"/>
+            <Button Content="Client" Name="ClientButton" Click="MainMenu_Click" Margin="5" Grid.Column="2"/>
+            <Button Content="Talent" Name="TalentButton" Click="MainMenu_Click" Margin="5,0,5,5" Grid.Column="3" Height="30" VerticalAlignment="Bottom"/>
         </Grid>
+
 
         <!-- Main Form -->
         <StackPanel Grid.Column="1" Grid.Row="1" Name="MainContentPanel">

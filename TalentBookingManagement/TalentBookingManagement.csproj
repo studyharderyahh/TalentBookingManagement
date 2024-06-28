@@ -64,14 +64,25 @@
     <Compile Include="FileHelper\Logger.cs" />
     <Compile Include="Models\Staff.cs" />
     <Compile Include="Models\StaffPermission.cs" />
+    <Compile Include="ViewModels\AddNewClientViewModel.cs" />
+    <Compile Include="ViewModels\AddNewStaffViewModel.cs" />
     <Compile Include="ViewModels\CancelBookingViewModel.cs" />
+    <Compile Include="ViewModels\ClientDetailsViewModel.cs" />
     <Compile Include="ViewModels\CreateCampaignViewModel.cs" />
     <Compile Include="Converters\DecimalConverter.cs" />
     <Compile Include="ViewModels\CreateClientViewModel.cs" />
+    <Compile Include="ViewModels\DeleteStaffViewModel.cs" />
     <Compile Include="ViewModels\MakeBookingViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\SelectTalentViewModel.cs" />
+    <Compile Include="ViewModels\StaffDetailsViewModel.cs" />
+    <Compile Include="ViewModels\StaffPermissionViewModel.cs" />
     <Compile Include="ViewModels\UpdateBookingViewModel.cs" />
+    <Compile Include="ViewModels\UpdateClientViewModel.cs" />
+    <Compile Include="ViewModels\UpdateStaffViewModel.cs" />
+    <Compile Include="Views\Staff&amp;ClientManagement\AddNewClient.xaml.cs">
+      <DependentUpon>AddNewClient.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CancelBookingWindow.xaml.cs">
       <DependentUpon>CancelBookingWindow.xaml</DependentUpon>
     </Compile>
@@ -85,6 +96,24 @@
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Views\MakeBookingWindow.xaml.cs">
       <DependentUpon>MakeBookingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Staff&amp;ClientManagement\AddNewStaff.xaml.cs">
+      <DependentUpon>AddNewStaff.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Staff&amp;ClientManagement\DeleteStaff.xaml.cs">
+      <DependentUpon>DeleteStaff.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Staff&amp;ClientManagement\UpdateClient.xaml.cs">
+      <DependentUpon>UpdateClient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Staff&amp;ClientManagement\UpdateSatff.xaml.cs">
+      <DependentUpon>UpdateSatff.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Staff&amp;ClientManagement\ViewClientDetails.xaml.cs">
+      <DependentUpon>ViewClientDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Staff&amp;ClientManagement\ViewStaffDetails.xaml.cs">
+      <DependentUpon>ViewStaffDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateBookingWindow.xaml.cs">
       <DependentUpon>UpdateBookingWindow.xaml</DependentUpon>
@@ -111,6 +140,13 @@
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ViewBookingsViewModel.cs" />
+    <Compile Include="Views\Staff&amp;ClientManagement\ViewStaffPermission.xaml.cs">
+      <DependentUpon>ViewStaffPermission.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\Staff&amp;ClientManagement\AddNewClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CancelBookingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -124,6 +160,30 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SelectTalentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Staff&amp;ClientManagement\AddNewStaff.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Staff&amp;ClientManagement\DeleteStaff.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Staff&amp;ClientManagement\UpdateClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Staff&amp;ClientManagement\UpdateSatff.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Staff&amp;ClientManagement\ViewClientDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Staff&amp;ClientManagement\ViewStaffDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,6 +241,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TalentManagement\SearchingTalentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Staff&amp;ClientManagement\ViewStaffPermission.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

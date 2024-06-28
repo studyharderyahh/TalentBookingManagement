@@ -33,5 +33,6 @@ namespace TalentBookingManagement.ViewModels
             Logger.Log("RaiseCanExecuteChanged called");
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
+
     }
 }

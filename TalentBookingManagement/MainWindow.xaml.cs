@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TalentBookingManagement.Staff_ClientManagement;
 using TalentBookingManagement.Views;
+using TalentBookingManagement.Views.Staff_ClientManagement;
 
 namespace TalentBookingManagement
 {
@@ -58,9 +60,18 @@ namespace TalentBookingManagement
             }
             else if (clickedButton.Name == "StaffButton")
             {
-                contextMenu.Items.Add(CreateMenuItem("Staff Option 1"));
-                contextMenu.Items.Add(CreateMenuItem("Staff Option 2"));
-                contextMenu.Items.Add(CreateMenuItem("Staff Option 3"));
+                contextMenu.Items.Add(CreateMenuItem("Add New Staff"));
+                contextMenu.Items.Add(CreateMenuItem("View Staff Details"));
+                contextMenu.Items.Add(CreateMenuItem("View Staff Permission"));
+                contextMenu.Items.Add(CreateMenuItem("Update Staff"));
+                contextMenu.Items.Add(CreateMenuItem("Delete Staff"));
+            }
+            else if (clickedButton.Name == "ClientButton")
+            {
+                contextMenu.Items.Add(CreateMenuItem("View Client Details"));            
+                contextMenu.Items.Add(CreateMenuItem("Add New Client"));
+                contextMenu.Items.Add(CreateMenuItem("Update Client"));
+                
             }
             else if (clickedButton.Name == "TalentButton")
             {
@@ -141,6 +152,54 @@ namespace TalentBookingManagement
             {
                 CancelBookingWindow cancelBookingWindow = new CancelBookingWindow();
                 cancelBookingWindow.Show();
+            }
+
+            else if (buttonText == "Add New Staff")
+            {
+                AddNewStaff addNewStaff = new AddNewStaff();
+                addNewStaff.Show();
+            }
+
+            else if (buttonText == "View Staff Details")
+            {
+                ViewStaffDetails viewStaffDetails = new ViewStaffDetails();
+                viewStaffDetails.Show();
+            }
+
+            else if (buttonText == "View Staff Permission")
+            {
+                ViewStaffPermission viewStaffPermission = new ViewStaffPermission();
+                viewStaffPermission.Show();
+            }
+
+            else if (buttonText == "Update Staff")
+            {
+                UpdateSatff updateStaff = new UpdateSatff();
+                updateStaff.Show();
+            }
+
+            else if (buttonText == "Delete Staff")
+            {
+                DeleteStaff deleteStaff = new DeleteStaff();
+                deleteStaff.Show();
+            }
+
+            else if (buttonText == "View Client Details")
+            {
+                ViewClientDetails viewClientDetails = new ViewClientDetails();
+                viewClientDetails.Show();
+            }
+
+            else if (buttonText == "Add New Client")
+            {
+                AddNewClient addNewClient = new AddNewClient();
+                addNewClient.Show();
+            }
+
+            else if (buttonText == "Update Client")
+            {
+                UpdateClient updateClient = new UpdateClient();
+                updateClient.Show();
             }
             else
             {
