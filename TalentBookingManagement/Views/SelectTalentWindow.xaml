@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:TalentBookingManagement"
         xmlns:viewModels="clr-namespace:TalentBookingManagement.ViewModels"
         mc:Ignorable="d"
-        Title="Select Talent" Height="600" Width="700">
+        Title="Select Talent" Height="600" Width="700"
+        WindowStartupLocation="CenterScreen">
+    
     <Window.DataContext>
         <viewModels:SelectTalentViewModel />
     </Window.DataContext>
@@ -38,11 +40,10 @@
 
             <!-- Availability Status -->
             <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5">Availability Status:</TextBlock>
-            <ComboBox SelectedItem="{Binding AvailabilityStatus}" Grid.Column="1" Margin="5">
-                <ComboBoxItem Content="Available"/>
-                <ComboBoxItem Content="Unavailable"/>
-                <ComboBoxItem Content="Pending"/>
-            </ComboBox>
+            <ComboBox x:Name="RateTypeComboBox" Grid.Column="1" Margin="5" 
+                        ItemsSource="{Binding AvailabilityStatuses}"
+                        SelectedItem="{Binding SelectedAvailabilityStatus, Mode=TwoWay}"
+                        SelectionChanged="AvailabilityStatus_SelectionChanged"/>
 
             <!-- Skill Name -->
             <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">Skill Name:</TextBlock>
@@ -74,7 +75,7 @@
         </Grid>
 
         <!-- Filter Options - Row 3 -->
-        <!-- Grid Grid.Row="3" Margin="0 0 0 10">
+        <!-- <Grid Grid.Row="3" Margin="0 0 0 10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -102,15 +103,15 @@
              <ColumnDefinition Width="*"/>
              <ColumnDefinition Width="Auto"/>
              <ColumnDefinition Width="*"/>
-             </Grid.ColumnDefinitions>-->
+             </Grid.ColumnDefinitions> -->
 
             <!-- Min Daily Rate -->
         <!-- <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5">Min Daily Rate:</TextBlock>
-            <TextBox Text="{Binding MinDailyRate}" Grid.Column="1" Margin="5"/>-->
+        <TextBox Text="{Binding MinDailyRate}" Grid.Column="1" Margin="5"/> -->
 
             <!-- Max Daily Rate -->
         <!-- <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">Max Daily Rate:</TextBlock>
-            <TextBox Text="{Binding MaxDailyRate}" Grid.Column="3" Margin="5"/>
+        <TextBox Text="{Binding MaxDailyRate}" Grid.Column="3" Margin="5"/>
     </Grid> -->
 
     <!-- Talent DataGrid -->
@@ -119,16 +120,17 @@
                 <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Header="Select"/>
                 <DataGridTextColumn Binding="{Binding FirstName}" Header="First Name"/>
                 <DataGridTextColumn Binding="{Binding LastName}" Header="Last Name"/>
+                <DataGridTextColumn Binding="{Binding AvailabilityStatus}" Header="Availability Status"/>
+                <DataGridTextColumn Binding="{Binding Skill}" Header="Skill"/>
+                <DataGridTextColumn Binding="{Binding BookingStartDate, StringFormat=d}" Header="Booking Start Date"/>
+                <DataGridTextColumn Binding="{Binding BookingEndDate, StringFormat=d}" Header="Booking End Date"/>
+                <DataGridTextColumn Binding="{Binding PreferredEngagement}" Header="Preferred Engagement"/>
                 <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Phone Number"/>
                 <DataGridTextColumn Binding="{Binding Email}" Header="Email"/>
                 <DataGridTextColumn Binding="{Binding City}" Header="City"/>
                 <DataGridTextColumn Binding="{Binding Suburb}" Header="Suburb"/>
                 <DataGridTextColumn Binding="{Binding StreetAddress}" Header="Street Address"/>
                 <DataGridTextColumn Binding="{Binding Postcode}" Header="Postcode"/>
-                <DataGridTextColumn Binding="{Binding Skill}" Header="Skill"/>
-                <DataGridTextColumn Binding="{Binding BookingStartDate, StringFormat=d}" Header="Booking Start Date"/>
-                <DataGridTextColumn Binding="{Binding BookingEndDate, StringFormat=d}" Header="Booking End Date"/>
-                <DataGridTextColumn Binding="{Binding PreferredEngagement}" Header="Preferred Engagement"/>
             </DataGrid.Columns>
         </DataGrid>
 

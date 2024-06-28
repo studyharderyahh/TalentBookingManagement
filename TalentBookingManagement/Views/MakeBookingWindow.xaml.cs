@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using TalentBookingManagement.Models;
+using TalentBookingManagement.ViewModels;
 using System.Configuration;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,22 +19,37 @@ namespace TalentBookingManagement
     /// <summary>
     /// Interaction logic for MakeBookingWindow.xaml
     /// </summary>
-    public partial class MakeBookingWindow : Window, INotifyPropertyChanged
+    public partial class MakeBookingWindow : Window
     {
-        private ObservableCollection<Campaign> campaigns;
-        private Campaign selectedCampaign;
-        private List<int> selectedTalentIDs = new List<int>();
-
-        private readonly static string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
-
         public MakeBookingWindow()
         {
             InitializeComponent();
-            DataContext = this; // Set the DataContext for data binding
-            Campaigns = new ObservableCollection<Campaign>();
+            DataContext = new MakeBookingViewModel();
+
+        }
+        private void CmbCampaignDetail_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbCampaignDetail.SelectedItem != null)
+            {
+                (DataContext as MakeBookingViewModel).SelectedCampaign = cmbCampaignDetail.SelectedItem as Campaign;
+            }
+        }
+        private void RateType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedRateType = (sender as ComboBox)?.SelectedItem as string;
+            if (!string.IsNullOrEmpty(selectedRateType))
+            {
+                (DataContext as MakeBookingViewModel)?.RateType_SelectionChanged(selectedRateType);
+            }
         }
 
-        private void CheckClient_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+
+        /*private void CheckClient_Click(object sender, RoutedEventArgs e)
         {
             string clientInput = txtClientInput.Text.Trim();
             string selectedOption = ((ComboBoxItem)cmbClientOption.SelectedItem).Content.ToString();
@@ -148,7 +164,7 @@ namespace TalentBookingManagement
             txtPhoneNumber.Text = phoneNumber;
         }
 
-        /*private void ClearClientDetails()
+        private void ClearClientDetails()
         {
             // Clear client details from UI
             txtClientID.Text = string.Empty;
@@ -158,7 +174,7 @@ namespace TalentBookingManagement
 
             // Hide client details border
             clientDetailsBorder.Visibility = Visibility.Collapsed;
-        }*/
+        }
 
         public ObservableCollection<Campaign> Campaigns
         {
@@ -292,9 +308,9 @@ namespace TalentBookingManagement
             {
                 lstSelectedTalents.ItemsSource = selectTalentWindow.SelectedTalents;
                 selectedTalentIDs = selectTalentWindow.SelectedTalents.Select(t => t.TalentID).ToList();
-
             }
         }
+
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -430,6 +446,6 @@ namespace TalentBookingManagement
             {
                 MessageBox.Show("Please ensure all required fields are selected and filled in correctly.", "Validation Error");
             }
-        }
+        }*/
     }
 }

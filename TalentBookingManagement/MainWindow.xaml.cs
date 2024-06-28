@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TalentBookingManagement.Views;
 
 namespace TalentBookingManagement
 {
@@ -135,6 +136,11 @@ namespace TalentBookingManagement
             {
                 ViewBookingsWindow viewAllBookingsWindow = new ViewBookingsWindow();
                 viewAllBookingsWindow.Show();
+            }
+            else if (buttonText == "Cancel Booking")
+            {
+                CancelBookingWindow cancelBookingWindow = new CancelBookingWindow();
+                cancelBookingWindow.Show();
             }
             else
             {

@@ -14,49 +14,128 @@ namespace TalentBookingManagement
             InitializeComponent();
         }
 
+        // Add Talent button click event handler
         private void AddTalentButton_Click(object sender, RoutedEventArgs e)
         {
-            string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            // Validate input fields
+            if (IsValid())
             {
-                SqlCommand command = new SqlCommand("AddTalent", connection);
-                command.CommandType = CommandType.StoredProcedure;
+                string connectionString = "Server=citizen.manukautech.info,6306;Database=S601_LetItGo_Project;User Id=S601_LetItGo;Password=fBit$26170;";
 
-                // Add parameters
-                command.Parameters.AddWithValue("@FirstName", FirstNameTextBox.Text);
-                command.Parameters.AddWithValue("@LastName", LastNameTextBox.Text);
-                command.Parameters.AddWithValue("@PhoneNumber", PhoneNumberTextBox.Text);
-                command.Parameters.AddWithValue("@Age", int.Parse(AgeTextBox.Text));
-                command.Parameters.AddWithValue("@Gender", (GenderComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
-                command.Parameters.AddWithValue("@Email", EmailTextBox.Text);
-                command.Parameters.AddWithValue("@City", CityTextBox.Text);
-                command.Parameters.AddWithValue("@Suburb", SuburbTextBox.Text);
-                command.Parameters.AddWithValue("@StreetAddress", StreetAddressTextBox.Text);
-                command.Parameters.AddWithValue("@Postcode", PostcodeTextBox.Text);
-                command.Parameters.AddWithValue("@AvailabilityStatus", (AvailabilityStatusComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
-                command.Parameters.AddWithValue("@ActiveStatus", (ActiveStatusComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
-                command.Parameters.AddWithValue("@SkillNames", SkillNamesTextBox.Text);
-
-                SqlParameter talentIdParam = new SqlParameter("@TalentID", SqlDbType.Int);
-                talentIdParam.Direction = ParameterDirection.Output;
-                command.Parameters.Add(talentIdParam);
-
-                try
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    int newTalentId = (int)command.Parameters["@TalentID"].Value;
+                    SqlCommand command = new SqlCommand("AddTalent", connection);
+                    command.CommandType = CommandType.StoredProcedure;
 
-                    MessageBox.Show($"New talent added with ID: {newTalentId}");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"An error occurred: {ex.Message}");
+                    // Add parameters
+                    command.Parameters.AddWithValue("@FirstName", FirstNameTextBox.Text);
+                    command.Parameters.AddWithValue("@LastName", LastNameTextBox.Text);
+                    command.Parameters.AddWithValue("@PhoneNumber", PhoneNumberTextBox.Text);
+                    command.Parameters.AddWithValue("@Age", int.Parse(AgeTextBox.Text));
+                    command.Parameters.AddWithValue("@Gender", (GenderComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+                    command.Parameters.AddWithValue("@Email", EmailTextBox.Text);
+                    command.Parameters.AddWithValue("@City", CityTextBox.Text);
+                    command.Parameters.AddWithValue("@Suburb", SuburbTextBox.Text);
+                    command.Parameters.AddWithValue("@StreetAddress", StreetAddressTextBox.Text);
+                    command.Parameters.AddWithValue("@Postcode", PostcodeTextBox.Text);
+                    command.Parameters.AddWithValue("@AvailabilityStatus", (AvailabilityStatusComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+                    command.Parameters.AddWithValue("@ActiveStatus", (ActiveStatusComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+                    command.Parameters.AddWithValue("@SkillNames", SkillNamesTextBox.Text);
+
+                    // Output parameter to get the new Talent ID
+                    SqlParameter talentIdParam = new SqlParameter("@TalentID", SqlDbType.Int);
+                    talentIdParam.Direction = ParameterDirection.Output;
+                    command.Parameters.Add(talentIdParam);
+
+                    try
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        int newTalentId = (int)command.Parameters["@TalentID"].Value;
+
+                        MessageBox.Show($"New talent added with ID: {newTalentId}");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"An error occurred: {ex.Message}");
+                    }
                 }
             }
         }
 
+        // Validation check for input fields
+        private bool IsValid()
+        {
+            if (string.IsNullOrWhiteSpace(FirstNameTextBox.Text))
+            {
+                MessageBox.Show("First Name is required.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(LastNameTextBox.Text))
+            {
+                MessageBox.Show("Last Name is required.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(PhoneNumberTextBox.Text))
+            {
+                MessageBox.Show("Phone Number is required.");
+                return false;
+            }
+            // Check if Age is null or not a valid integer
+            if (string.IsNullOrWhiteSpace(AgeTextBox.Text) || !int.TryParse(AgeTextBox.Text, out _))
+            {
+                MessageBox.Show("Valid Age is required.");
+                return false;
+            }
+            if (GenderComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Gender is required.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(EmailTextBox.Text))
+            {
+                MessageBox.Show("Email is required.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(CityTextBox.Text))
+            {
+                MessageBox.Show("City is required.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(SuburbTextBox.Text))
+            {
+                MessageBox.Show("Suburb is required.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(StreetAddressTextBox.Text))
+            {
+                MessageBox.Show("Street Address is required.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(PostcodeTextBox.Text))
+            {
+                MessageBox.Show("Postcode is required.");
+                return false;
+            }
+            if (AvailabilityStatusComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Availability Status is required.");
+                return false;
+            }
+            if (ActiveStatusComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Active Status is required.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(SkillNamesTextBox.Text))
+            {
+                MessageBox.Show("Skill Names are required.");
+                return false;
+            }
+            return true;
+        }
+
+        // Remove placeholder text when the TextBox gets focus
         private void RemovePlaceholderText(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -67,6 +146,7 @@ namespace TalentBookingManagement
             }
         }
 
+        // Add placeholder text when the TextBox loses focus and is empty
         private void AddPlaceholderText(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -77,9 +157,10 @@ namespace TalentBookingManagement
             }
         }
 
+        // Event handler for City TextBox text changed event (empty in this example)
         private void CityTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
+
         }
     }
 }

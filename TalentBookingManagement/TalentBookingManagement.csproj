@@ -62,17 +62,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FileHelper\Logger.cs" />
+    <Compile Include="Models\Staff.cs" />
+    <Compile Include="Models\StaffPermission.cs" />
+    <Compile Include="ViewModels\CancelBookingViewModel.cs" />
     <Compile Include="ViewModels\CreateCampaignViewModel.cs" />
     <Compile Include="Converters\DecimalConverter.cs" />
     <Compile Include="ViewModels\CreateClientViewModel.cs" />
+    <Compile Include="ViewModels\MakeBookingViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\SelectTalentViewModel.cs" />
     <Compile Include="ViewModels\UpdateBookingViewModel.cs" />
+    <Compile Include="Views\CancelBookingWindow.xaml.cs">
+      <DependentUpon>CancelBookingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreateClientWindow.xaml.cs">
       <DependentUpon>CreateClientWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MakePaymentWindow.xaml.cs">
-      <DependentUpon>MakePaymentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SelectTalentWindow.xaml.cs">
       <DependentUpon>SelectTalentWindow.xaml</DependentUpon>
@@ -107,15 +111,15 @@
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ViewBookingsViewModel.cs" />
+    <Page Include="Views\CancelBookingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CreateClientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MakeBookingWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MakePaymentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

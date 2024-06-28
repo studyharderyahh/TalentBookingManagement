@@ -19,5 +19,6 @@ namespace TalentBookingManagement.Models
         public string Suburb { get; set; }
         public string StreetAddress { get; set; }
         public string Postcode { get; set; }
+        public string ActiveStatus { get; set; }
     }
 }

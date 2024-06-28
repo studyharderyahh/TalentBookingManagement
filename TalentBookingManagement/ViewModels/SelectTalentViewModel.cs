@@ -15,27 +15,54 @@ namespace TalentBookingManagement.ViewModels
     {
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
 
-        public SelectTalentViewModel()
-        {
-            SearchCommand = new RelayCommand(SearchTalent);
-            SelectCommand = new RelayCommand(SelectTalent);
-            CloseCommand = new RelayCommand(CloseWindow);
-            LoadInitialTalents();
-        }
-
-        public ObservableCollection<Talent> Talents { get; } = new ObservableCollection<Talent>();
-        public ObservableCollection<Talent> SelectedTalents { get; } = new ObservableCollection<Talent>();
-
+        private string selectedAvailabilityStatus;
         private string availabilityStatus;
         private string skillName;
         private DateTime? bookingStartDate;
         private DateTime? bookingEndDate;
         private string preferredEngagement;
 
+        public SelectTalentViewModel()
+        {
+            AvailabilityStatuses = new ObservableCollection<string>
+            {
+                "Available for booking",
+                "booked",
+                "Unavailable"
+            };
+
+            SearchCommand = new RelayCommand(SearchTalent);
+            SelectCommand = new RelayCommand(SelectTalent);
+            CloseCommand = new RelayCommand(CloseWindow);
+            AvailabilityStatusChangedCommand = new RelayCommand(OnAvailabilityStatusChanged);
+
+            LoadInitialTalents();
+        }
+
+        public ObservableCollection<Talent> Talents { get; } = new ObservableCollection<Talent>();
+        public ObservableCollection<Talent> SelectedTalents { get; private set; } = new ObservableCollection<Talent>();
+        public ObservableCollection<string> AvailabilityStatuses { get; }
+
+        public string SelectedAvailabilityStatus
+        {
+            get => selectedAvailabilityStatus;
+            set
+            {
+                if (SetProperty(ref selectedAvailabilityStatus, value))
+                {
+                    OnAvailabilityStatusChanged();
+                }
+            }
+        }
+
         public string AvailabilityStatus
         {
             get => availabilityStatus;
-            set => SetProperty(ref availabilityStatus, value);
+            set
+            {
+                availabilityStatus = value;
+                OnPropertyChanged(nameof(AvailabilityStatus));
+            }
         }
 
         public string SkillName
@@ -65,11 +92,13 @@ namespace TalentBookingManagement.ViewModels
         public ICommand SearchCommand { get; }
         public ICommand SelectCommand { get; }
         public ICommand CloseCommand { get; }
+        public ICommand AvailabilityStatusChangedCommand { get; }
 
         public event Action CloseRequested;
 
         private void LoadInitialTalents()
         {
+            Logger.Info("Loading initial talents.");
             Talents.Clear();
             var initialTalents = FetchFilteredTalents(null, null, null, null, null);
             foreach (var talent in initialTalents)
@@ -77,12 +106,18 @@ namespace TalentBookingManagement.ViewModels
                 Talents.Add(talent);
             }
         }
+        private void OnAvailabilityStatusChanged()
+        {
+            // Handle the change in availability status here
+            Console.WriteLine($"Availability Status changed to: {SelectedAvailabilityStatus}");
+        }
 
         private void SearchTalent()
         {
+            Logger.Info($"Searching talents with filters - AvailabilityStatus: {SelectedAvailabilityStatus}, SkillName: {skillName}, BookingStartDate: {bookingStartDate}, BookingEndDate: {bookingEndDate}, PreferredEngagement: {preferredEngagement}");
             Talents.Clear();
             var filteredTalents = FetchFilteredTalents(
-                availabilityStatus, skillName, bookingStartDate, bookingEndDate, preferredEngagement);
+                SelectedAvailabilityStatus, skillName, bookingStartDate, bookingEndDate, preferredEngagement);
             foreach (var talent in filteredTalents)
             {
                 Talents.Add(talent);
@@ -91,17 +126,21 @@ namespace TalentBookingManagement.ViewModels
 
         private void SelectTalent()
         {
+            Logger.Info("Selecting talents.");
             SelectedTalents.Clear();
             foreach (var talent in Talents.Where(t => t.IsSelected))
             {
                 SelectedTalents.Add(talent);
             }
 
+            // Setting DialogResult to true to indicate success
+            // var DialogResult = true;
             CloseRequested?.Invoke();
         }
 
         private void CloseWindow()
         {
+            Logger.Info("Closing window.");
             CloseRequested?.Invoke();
         }
 
@@ -125,6 +164,7 @@ namespace TalentBookingManagement.ViewModels
                     cmd.Parameters.AddWithValue("@PreferredEngagement", string.IsNullOrEmpty(preferredEngagement) ? (object)DBNull.Value : preferredEngagement);
 
                     connection.Open();
+                    Logger.Info("Executing stored procedure spGetFilteredTalent.");
                     var rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
@@ -134,6 +174,7 @@ namespace TalentBookingManagement.ViewModels
                             TalentID = rdr["TalentID"] != DBNull.Value ? Convert.ToInt32(rdr["TalentID"]) : 0,
                             FirstName = rdr["FirstName"] != DBNull.Value ? rdr["FirstName"].ToString() : string.Empty,
                             LastName = rdr["LastName"] != DBNull.Value ? rdr["LastName"].ToString() : string.Empty,
+                            AvailabilityStatus = rdr["AvailabilityStatus"] != DBNull.Value ? rdr["AvailabilityStatus"].ToString() : string.Empty,
                             PhoneNumber = rdr["PhoneNumber"] != DBNull.Value ? rdr["PhoneNumber"].ToString() : string.Empty,
                             Email = rdr["Email"] != DBNull.Value ? rdr["Email"].ToString() : string.Empty,
                             City = rdr["City"] != DBNull.Value ? rdr["City"].ToString() : string.Empty,
@@ -156,6 +197,7 @@ namespace TalentBookingManagement.ViewModels
             }
             catch (Exception ex)
             {
+                Logger.Error($"Error fetching talents: {ex.Message}");
                 MessageBox.Show("Error fetching talents: " + ex.Message);
             }
 

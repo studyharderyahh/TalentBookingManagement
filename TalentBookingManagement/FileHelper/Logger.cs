@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TalentBookingManagement
 {
@@ -11,13 +7,13 @@ namespace TalentBookingManagement
     {
         private static readonly string logFilePath = "app_log.txt";
 
-        public static void Log(string message)
+        public static void Log(string message, LogLevel level = LogLevel.Info)
         {
             try
             {
                 using (StreamWriter writer = new StreamWriter(logFilePath, true))
                 {
-                    writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}: {message}");
+                    writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} [{level}] {message}");
                 }
             }
             catch (Exception ex)
@@ -25,5 +21,27 @@ namespace TalentBookingManagement
                 Console.WriteLine($"Failed to write log: {ex.Message}");
             }
         }
+
+        public static void Info(string message)
+        {
+            Log(message, LogLevel.Info);
+        }
+
+        public static void Warning(string message)
+        {
+            Log(message, LogLevel.Warning);
+        }
+
+        public static void Error(string message)
+        {
+            Log(message, LogLevel.Error);
+        }
+    }
+
+    public enum LogLevel
+    {
+        Info,
+        Warning,
+        Error
     }
 }

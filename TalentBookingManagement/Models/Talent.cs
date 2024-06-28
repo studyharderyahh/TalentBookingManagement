@@ -6,17 +6,9 @@ using System.Threading.Tasks;
 
 namespace TalentBookingManagement.Models
 {
-    public class Talent
+    public class Talent : Person
     {
         public int TalentID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string City { get; set; }
-        public string Suburb { get; set; }
-        public string StreetAddress { get; set; }
-        public string Postcode { get; set; }
         public string Skill { get; set; }
         public int BookingID { get; set; }
         public DateTime BookingStartDate { get; set; }
@@ -27,5 +19,6 @@ namespace TalentBookingManagement.Models
         public decimal HourlyRates { get; set; }
         public decimal DailyRates { get; set; }
         public bool IsSelected { get; set; }
+        public string AvailabilityStatus { get; set; }
     }
 }

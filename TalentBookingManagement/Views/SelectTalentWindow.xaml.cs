@@ -23,14 +23,35 @@ namespace TalentBookingManagement
     {
         private readonly SelectTalentViewModel viewModel;
 
+        public ObservableCollection<Talent> SelectedTalents { get; private set; } = new ObservableCollection<Talent>();
+
         public SelectTalentWindow()
         {
             InitializeComponent();
             viewModel = new SelectTalentViewModel();
-            viewModel.CloseRequested += () => this.Close();
+            viewModel.CloseRequested += ViewModel_CloseRequested;
             this.DataContext = viewModel;
         }
 
-        public ObservableCollection<Talent> SelectedTalents => viewModel.SelectedTalents;
+        private void AvailabilityStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedAvailabilityStatusCombo = sender as ComboBox;
+            if (selectedAvailabilityStatusCombo?.SelectedItem is string selectedAvailabilityStatus)
+            {
+                // Handle the selected availability status here
+                Console.WriteLine($"Selected availability status: {selectedAvailabilityStatus}");
+            }
+        }
+        private void ViewModel_CloseRequested()
+        {
+            var viewModel = DataContext as SelectTalentViewModel;
+            if (viewModel != null)
+            {
+                SelectedTalents = new ObservableCollection<Talent>(viewModel.SelectedTalents);
+                DialogResult = true;
+                Close();
+            }
+        }
+
     }
 }
