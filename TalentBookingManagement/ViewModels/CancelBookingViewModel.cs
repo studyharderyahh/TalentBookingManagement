@@ -15,9 +15,9 @@ namespace TalentBookingManagement.ViewModels
     {
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["TBMConnectionString"].ConnectionString;
 
-        private string _selectedOption;
-        private int _id;
-        private ObservableCollection<Booking> _bookings;
+        private string selectedOption;
+        private int id;
+        private ObservableCollection<Booking> bookings;
 
         public CancelBookingViewModel()
         {
@@ -30,30 +30,30 @@ namespace TalentBookingManagement.ViewModels
         public ObservableCollection<string> SelectedOptions { get; }
         public string SelectedOption
         {
-            get => _selectedOption;
+            get => selectedOption;
             set
             {
-                _selectedOption = value;
+                selectedOption = value;
                 OnPropertyChanged(nameof(SelectedOption));
             }
         }
 
         public int ID
         {
-            get => _id;
+            get => id;
             set
             {
-                _id = value;
+                id = value;
                 OnPropertyChanged(nameof(ID));
             }
         }
 
         public ObservableCollection<Booking> Bookings
         {
-            get => _bookings;
+            get => bookings;
             set
             {
-                _bookings = value;
+                bookings = value;
                 OnPropertyChanged(nameof(Bookings));
             }
         }
@@ -147,16 +147,29 @@ namespace TalentBookingManagement.ViewModels
                     }
 
                     connection.Open();
-                    int rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected > 0)
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
                     {
-                        MessageBox.Show("Booking canceled successfully.");
-                        FetchBookings(); // Refresh the booking list
+                        reader.Read();
+                        int rowsAffected = reader.GetInt32(0);
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Booking canceled successfully.");
+                            FetchBookings(); // Refresh the booking list
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to cancel booking.");
+                        }
                     }
                     else
                     {
                         MessageBox.Show("Failed to cancel booking.");
                     }
+
+                    reader.Close();
                 }
                 catch (Exception ex)
                 {
